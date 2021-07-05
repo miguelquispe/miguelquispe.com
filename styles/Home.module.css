@@ -7,6 +7,35 @@
   align-items: center;
 }
 
+.hero {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.hero h1,
+.hero p {
+  margin: 0;
+}
+
+.hero h1 {
+  font-size: 40px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 24px;
+}
+
+.hero h1 span {
+  display: block;
+}
+
+.hero p {
+  font-size: 24px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #848484;
+}
+
 .main {
   padding: 5rem 0;
   flex: 1;

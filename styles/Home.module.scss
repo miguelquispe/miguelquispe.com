@@ -1,0 +1,35 @@
+.hero {
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 40px;
+    line-height: 1.4;
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 24px;
+  }
+  
+  h1 span {
+    display: block;
+  }
+  
+  p {
+    font-size: 24px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: #848484;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 56px;
+      line-height: 1.2;
+    }
+  }
+ }
