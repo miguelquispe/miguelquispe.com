@@ -1,0 +1,27 @@
+.main {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.main a {
+  display: block;
+}
+
+.brand {
+  width: 58px;
+  height: 26px;
+}
+
+.menu a {
+  color: #848484;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 4px 4px;
+  margin-right: 8px;
+  text-decoration: none;
+}
+
+.menu a:last-child {
+  margin-right: 0;
+}
