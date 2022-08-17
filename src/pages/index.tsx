@@ -1,13 +1,11 @@
 import Head from 'next/head'
-import Layout from '../components/Layout'
-import styles from '../styles/Home.module.scss'
+import Layout from '@components/Layout'
 
+import styles from '@styles/Home.module.scss'
 
 export default function Home() {
   return (
-    <Layout
-      title="Miguel Quispe"
-      description="Frontent React">
+    <Layout title="Miguel Quispe" description="Frontent React">
       <section className={styles.hero}>
         <div className="container">
           <h1>

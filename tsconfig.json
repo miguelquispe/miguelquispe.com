@@ -19,6 +19,10 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "./src",
+    "paths": {
+      "@components/*":["components/*"],
+      "@styles/*": ["styles/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
