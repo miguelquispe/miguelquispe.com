@@ -1,0 +1,39 @@
+@import "styles/settings/_settings";
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $font-family-base;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  line-height: 1.2;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  color: $color-blue-gray;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-medium;
+}
+
+a {
+  color: $color-purple-400;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-purple-500;
+  }
+}
