@@ -1,11 +1,11 @@
-
-import Logo from "../Logo";
-import styles from './Header.module.scss';
+import Container from '@components/Container/Container'
+import Logo from '../Logo'
+import styles from './Header.module.scss'
 
 export default function Header() {
   return (
     <header className={styles.main}>
-      <div className="container is-lg">
+      <Container>
         <nav className="flex sb">
           <div className={styles.brand}>
             <a href="#">
@@ -13,12 +13,14 @@ export default function Header() {
             </a>
           </div>
           <div className={`flex ${styles.menu}`}>
-              <a href="/">Blog</a>
-              <a href="/">Acerca de</a>
-              <a href="/">Contacto</a>
+            <a href="/">Blog</a>
+            <a href="/">Acerca de</a>
+            <a href="/">Contacto</a>
           </div>
         </nav>
-      </div>
+      </Container>
+      {/* <div className="container is-lg">
+      </div> */}
     </header>
   )
 }

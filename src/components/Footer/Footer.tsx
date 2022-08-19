@@ -1,9 +1,10 @@
+import Container from '@components/Container/Container'
 import styles from './Footer.module.scss'
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className="container">
+      <Container small>
         <nav>
           <div>
             <a href="/">Home</a>
@@ -18,7 +19,7 @@ export default function Footer() {
             <a href="/">Twitter</a>
           </div>
         </nav>
-      </div>
+      </Container>
     </footer>
   )
 }
