@@ -28,3 +28,12 @@
     padding-right: 0;
   }
 }
+
+// Utils
+.u-flex {
+  display: flex;
+}
+
+.u-flexJustifyBetween {
+  justify-content: space-between;
+}

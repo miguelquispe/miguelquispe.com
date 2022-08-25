@@ -1,33 +1,34 @@
-.main {
-  padding-top: 32px;
-  padding-bottom: 32px;
+@import "styles/settings/__settings";
 
-  a {
-    display: block;
-  }
+.main {
+  padding: 2rem;
 }
 
 .brand {
-  width: 58px;
-  height: 26px;
+  width: 3.625rem;
+  height: 1.625rem;
+
+  a {
+    display: block;
+    width: 3.625rem;
+    height: 1.625rem;
+  }
 }
+.menu {
+  gap: 1rem;
 
-.menu a {
-  color: #848484;
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 4px 4px;
-  margin-right: 8px;
-  text-decoration: none;
-  transition: transform 250ms ease;
+  a {
+    color: $color-gray;
+    font-size: 1rem;
+    transition: transform 250ms ease;
 
-  &:last-child {
-    margin-right: 0;
+    &:hover {
+      color: $color-blue-gray;
+      transform: translateY(-1px);
+    }
   }
 
-  &:hover {
-    color: #1A1A1A;
-    transform: translateY(-1px);
+  @media (min-width: 48rem) {
+    gap: 2.5rem;
   }
 }

@@ -1,14 +1,44 @@
+@import "styles/settings/__settings";
+
 .footer {
-  nav {
-    border-top: 1px solid #ccc;
-    display: grid;
-    gap: 16px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0 2rem 2rem;
+
+  [class*="u-flex"] {
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  a {
-    // 
+  hr {
+    height: 0;
+    border: 0;
+    border-top: 1px solid;
+    border-color: $color-gray-100;
+    margin-bottom: 2rem;
+    width: 100%;
   }
+
+  nav {
+    gap: 2rem;
+
+    a {
+      font-family: $font-family-heading;
+      color: $color-gray;
+
+      &:hover {
+        color: $color-purple-400;
+      }
+    }
+  }
+
+  @media (min-width: 48rem) {
+    [class*="u-flex"] {
+      flex-direction: row;
+    }
+  }
+}
+
+.copyright {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-medium;
+  margin: 0;
 }

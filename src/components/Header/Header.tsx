@@ -13,8 +13,8 @@ export default function Header() {
             </a>
           </div>
           <div className={`flex ${styles.menu}`}>
+            <a href="/">Conóceme</a>
             <a href="/">Blog</a>
-            <a href="/">Acerca de</a>
             <a href="/">Contacto</a>
           </div>
         </nav>
