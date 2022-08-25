@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import Layout from '@components/Layout'
 
 import styles from '@styles/Home.module.scss'
+import PageLayout from 'layout/Page'
 
 export default function Home() {
   return (
-    <Layout title="Miguel Quispe" description="Frontent React">
+    <PageLayout>
       <section className={styles.hero}>
         <div className="container">
           <h1>
@@ -16,6 +16,6 @@ export default function Home() {
           <p>Disfruto de aprender, mantenerme actualizado y viajar.</p>
         </div>
       </section>
-    </Layout>
+    </PageLayout>
   )
 }
