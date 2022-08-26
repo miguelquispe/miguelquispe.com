@@ -20,11 +20,9 @@
   a {
     color: $color-gray;
     font-size: 1rem;
-    transition: transform 250ms ease;
 
     &:hover {
       color: $color-blue-gray;
-      transform: translateY(-1px);
     }
   }
 

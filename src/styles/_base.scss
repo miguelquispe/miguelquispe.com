@@ -32,8 +32,10 @@ h6 {
 a {
   color: $color-purple-400;
   text-decoration: none;
+  transition: transform 250ms ease;
 
   &:hover {
     color: $color-purple-500;
+    transform: translateY(-1px);
   }
 }

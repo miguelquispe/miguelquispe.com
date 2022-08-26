@@ -1,35 +1,47 @@
+@import "styles/settings/_settings";
+
 .hero {
+  background-color: $color-purple-500;
   padding-top: 64px;
   padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+
+  color: white;
 
   h1,
+  h2,
   p {
     margin: 0;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: $color-green;
   }
 
   h1 {
-    font-size: 40px;
-    line-height: 1.4;
-    font-weight: 600;
-    margin: 0;
-    margin-bottom: 24px;
-  }
-  
-  h1 span {
-    display: block;
-  }
-  
-  p {
-    font-size: 24px;
-    line-height: 1.4;
-    font-weight: 400;
-    color: #848484;
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
   }
 
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 56px;
-      line-height: 1.2;
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 400;
+    max-width: 37.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    & {
+      padding: 6.25rem 3.5rem;
+      // padding-bottom: 6.25rem;
+      border-radius: 0.5rem;
     }
   }
- }
+}
