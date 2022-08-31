@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '@styles/Home.module.scss'
 import PageLayout from 'layout/Page'
 import Container from '@components/Container'
+import Post from '@components/Post/Post'
 
 export default function Home() {
   return (
@@ -14,6 +15,19 @@ export default function Home() {
           Soy desarrollador Frontend que disfruta de aprender, compartir
           conocimientos y viajar.
         </h2>
+      </section>
+      <section>
+        <Container small>
+          <h2 className="font-secondary h3">Artículos</h2>
+          <Post
+            title="Cambiar estilos de Checkbox y Radio Button con CSS3"
+            slug="/cambiar"
+          />
+
+          <Post title="Personalizar Scrollbar con CSS3" slug="/cambiar" />
+
+          <Post title="Crear un menú responsive básico" slug="/cambiar" />
+        </Container>
       </section>
     </PageLayout>
   )

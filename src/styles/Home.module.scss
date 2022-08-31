@@ -2,6 +2,7 @@
 
 .hero {
   background-color: $color-purple-500;
+  color: white;
   padding-top: 64px;
   padding-bottom: 64px;
   display: flex;
@@ -9,10 +10,8 @@
   gap: 24px;
 
   max-width: 62rem;
-  margin: 0 auto;
+  margin: 0 auto 3.5rem;
   padding: 3.5rem 2rem;
-
-  color: white;
 
   h1,
   h2,
