@@ -16,17 +16,17 @@ export default function Home() {
           conocimientos y viajar.
         </h2>
       </section>
-      <section>
+      <section className="u-wrap">
         <Container small>
           <h2 className="font-secondary h3">Artículos</h2>
           <Post
             title="Cambiar estilos de Checkbox y Radio Button con CSS3"
-            slug="/cambiar"
+            slug="/slug"
           />
 
-          <Post title="Personalizar Scrollbar con CSS3" slug="/cambiar" />
+          <Post title="Personalizar Scrollbar con CSS3" slug="/slug" />
 
-          <Post title="Crear un menú responsive básico" slug="/cambiar" />
+          <Post title="Crear un menú responsive básico" slug="/slug" />
         </Container>
       </section>
     </PageLayout>

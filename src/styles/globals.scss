@@ -2,7 +2,6 @@
 
 @import "base";
 
-
 .container {
   max-width: 880px;
   margin: 0 auto;
@@ -30,6 +29,10 @@
 }
 
 // Utils
+.u-wrap {
+  padding: 2rem;
+}
+
 .u-flex {
   display: flex;
 }
