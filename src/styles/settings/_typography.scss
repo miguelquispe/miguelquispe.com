@@ -1,16 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lexend:wght@400;600&display=swap");
 
-$font-family-heading: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-$font-family-base: "Lexend", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+$font-family-heading: "Lexend", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+$font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
 $font-weight-regular: 400;
 $font-weight-medium: 600;
 $font-weight-bold: 700;
 
 .font-primary {
-  font-family: $font-family-heading;
+  font-family: $font-family-base;
 }
 
 .font-secondary {
-  font-family: $font-family-base;
+  font-family: $font-family-heading;
 }

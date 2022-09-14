@@ -28,6 +28,32 @@
   }
 }
 
+// Components
+.post-content {
+  a {
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@import "components/prism";
+
+.rehype-code-title {
+  padding: 1rem;
+  background-color: #ededed;
+  color: #666;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border: 1px solid #ededed;
+
+  & + pre[class*="language-"] {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
 // Utils
 .u-wrap {
   padding: 2rem;
