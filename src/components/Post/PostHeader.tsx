@@ -15,6 +15,7 @@ const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
             className="avatar"
             width={24}
             height={24}
+            alt="Miguel"
           />{' '}
           Miguel Quispe
         </li>

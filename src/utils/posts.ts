@@ -40,11 +40,12 @@ export function getPostFromSlug(slug: string): Post {
     content,
     meta: {
       slug,
-      excerpt: data.excerpt ?? "",
+      description: data.description ?? "",
       title: data.title ?? slug,
       tags: (data.tags ?? []).sort(),
       publishedAt: (data.publishedAt ?? new Date()).toString(),
-      readingTime: readingTime(content).minutes
+      readingTime: readingTime(content).minutes,
+      type: data.type ?? null
     }
   }
 }

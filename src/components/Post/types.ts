@@ -5,10 +5,11 @@ export interface Post {
 }
 
 export interface PostMeta {
-  excerpt?: string;
+  description?: string;
   slug: string;
   title: string;
   tags?: string[];
+  type?: string;
   publishedAt: string;
   readingTime: number
 }

@@ -17,8 +17,13 @@ interface MDXPost {
 }
 
 export default function PostPage({ post }: { post: MDXPost }) {
+  const seoConfig = {
+    ...post.meta,
+    image: 'https://miguelquispe.com/imagen-demo.jpg',
+  };
+
   return (
-    <PageLayout>
+    <PageLayout seo={seoConfig}>
       <section className="u-wrap">
         <Container small>
           <PostHeader {...post.meta} />
