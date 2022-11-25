@@ -1,5 +1,6 @@
-import Container from '@components/Container/Container'
-import styles from './Footer.module.scss'
+import Container from '@components/Container/Container';
+import Link from 'next/link';
+import styles from './Footer.module.scss';
 
 export default function Footer() {
   return (
@@ -9,7 +10,9 @@ export default function Footer() {
         <div className="u-flex u-flexJustifyBetween">
           <p className={styles.copyright}>Miguel Quispe 2022</p>
           <nav className="u-flex">
-            <a href="/">Home</a>
+            <Link href="/">
+              <a>Inicio</a>
+            </Link>
 
             <a href="https://www.linkedin.com/in/quispemiguel/" target="_blank">
               LinkedIn
@@ -26,5 +29,5 @@ export default function Footer() {
         </div>
       </Container>
     </footer>
-  )
+  );
 }

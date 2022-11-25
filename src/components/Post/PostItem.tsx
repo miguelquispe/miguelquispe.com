@@ -7,7 +7,7 @@ import { PostMeta } from './types';
 const PostItem = ({ title, slug, readingTime, publishedAt }: PostMeta) => {
   return (
     <article className={styles.main}>
-      <h3>
+      <h3 className="font-primary">
         <Link href={`blog/${slug}`} passHref>
           <a>{title}</a>
         </Link>

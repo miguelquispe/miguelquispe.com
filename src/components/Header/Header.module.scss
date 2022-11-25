@@ -19,10 +19,11 @@
 
   a {
     color: $color-gray;
+    font-weight: $font-weight-medium;
     font-size: 1rem;
 
     &:hover {
-      color: $color-blue-gray;
+      color: $color-green;
     }
   }
 

@@ -6,6 +6,7 @@
   & {
     h3 {
       margin: 0 0 1rem;
+      font-weight: $font-weight-medium;
     }
   }
 
@@ -22,6 +23,7 @@
   margin-bottom: 3.75rem;
   & {
     h1 {
+      font-weight: $font-weight-bold;
       margin: 0;
       margin-bottom: 0.625rem;
     }

@@ -36,6 +36,13 @@
       text-decoration: underline;
     }
   }
+
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 1.5rem;
+    font-family: $font-family-heading;
+  }
 }
 
 @import "components/prism";
@@ -65,4 +72,8 @@
 
 .u-flexJustifyBetween {
   justify-content: space-between;
+}
+
+.u-mb-10 {
+  margin-bottom: 2.5rem; //40px
 }

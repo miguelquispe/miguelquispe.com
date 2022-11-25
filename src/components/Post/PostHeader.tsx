@@ -6,7 +6,7 @@ import { PostMeta } from './types';
 const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
   return (
     <header className={styles.header}>
-      <h1 className="font-secondary">{title}</h1>
+      <h1>{title}</h1>
 
       <ul className={styles.meta}>
         <li>
@@ -25,7 +25,7 @@ const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
             locale: es,
           })}
         </li>
-        <li>{Math.ceil(readingTime)} min. lectura</li>
+        <li>{Math.ceil(readingTime)} minutos de lectura</li>
       </ul>
     </header>
   );
