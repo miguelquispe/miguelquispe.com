@@ -8,7 +8,7 @@ const SEO = ({ customMeta }: { customMeta?: Partial<PostMeta> }) => {
     title: 'Miguel Quispe',
     description:
       'Comparto artículos y tutoriales de lo que aprendo: Frontend, React, CSS y más...',
-    image: 'https://miguelquispe.com/images/social-banner.png',
+    image: '/images/social-banner.png',
     type: 'website',
     ...customMeta,
   };
@@ -28,12 +28,18 @@ const SEO = ({ customMeta }: { customMeta?: Partial<PostMeta> }) => {
         property="og:url"
         content={`https://miguelquispe.com${router.asPath}`}
       />
-      <meta property="og:image" content={meta.image} />
+      <meta
+        property="og:image"
+        content={`https://miguelquispe.com${meta.image}`}
+      />
       <meta property="og:site_name" content="Miguel Quispe" />
       {/*  Twitter */}
       <meta property="twitter:title" content={meta.title} />
       <meta property="twitter:description" content={meta.description} />
-      <meta property="twitter:image" content={meta.image} />
+      <meta
+        property="twitter:image"
+        content={`https://miguelquispe.com${meta.image}`}
+      />
       <meta property="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@miguelquispecom" />
 

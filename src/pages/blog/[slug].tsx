@@ -9,17 +9,20 @@ import rehypeCodeTitles from 'rehype-code-titles';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrism from 'rehype-prism-plus';
 
-import { PostHeader, PostMeta } from '@components/Post';
+import { PostHeader, PostMeta, PostImage } from '@components/Post';
 
 interface MDXPost {
   source: MDXRemoteSerializeResult<Record<string, unknown>>;
   meta: PostMeta;
 }
 
+const components = {
+  PostImage,
+};
+
 export default function PostPage({ post }: { post: MDXPost }) {
   const seoConfig = {
     ...post.meta,
-    image: 'https://miguelquispe.com/imagen-demo.jpg',
   };
 
   return (
@@ -28,7 +31,7 @@ export default function PostPage({ post }: { post: MDXPost }) {
         <Container small>
           <PostHeader {...post.meta} />
           <div className="post-content">
-            <MDXRemote {...post.source} />
+            <MDXRemote {...post.source} components={components} />
           </div>
         </Container>
       </section>

@@ -16,7 +16,7 @@ export default function Header() {
             </Link>
           </div>
           <div className={`flex ${styles.menu}`}>
-            <Link href="/blog">
+            <Link href="/">
               <a>Inicio</a>
             </Link>
             <Link href="/blog">

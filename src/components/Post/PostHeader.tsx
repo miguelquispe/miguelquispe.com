@@ -19,7 +19,6 @@ const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
           />{' '}
           Miguel Quispe
         </li>
-        {/* <li>En JavaScript</li> */}
         <li style={{ textTransform: 'capitalize' }}>
           {format(parseISO(publishedAt), 'MMMM dd, yyyy', {
             locale: es,

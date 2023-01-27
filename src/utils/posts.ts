@@ -45,7 +45,8 @@ export function getPostFromSlug(slug: string): Post {
       tags: (data.tags ?? []).sort(),
       publishedAt: (data.publishedAt ?? new Date()).toString(),
       readingTime: readingTime(content).minutes,
-      type: data.type ?? null
+      type: data.type ?? null,
+      image: data.image ?? null
     }
   }
 }

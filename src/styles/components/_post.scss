@@ -1,0 +1,34 @@
+.post-content {
+  a {
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-bottom: 1.5rem;
+    font-family: $font-family-heading;
+  }
+}
+
+.post-image {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.rehype-code-title {
+  padding: 1rem;
+  background-color: #031b2f;
+  color: white;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border: 1px solid #031b2f;
+
+  & + pre[class*="language-"] {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
