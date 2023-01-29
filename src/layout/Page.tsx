@@ -7,7 +7,7 @@ import { PropsWithChildren } from 'react';
 export default function PageLayout({
   children,
   seo,
-}: PropsWithChildren<{ seo?: PostMeta }>) {
+}: PropsWithChildren<{ seo?: Partial<PostMeta> }>) {
   return (
     <>
       <SEO customMeta={seo} />

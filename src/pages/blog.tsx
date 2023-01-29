@@ -5,7 +5,11 @@ import { getAllPosts } from 'utils/posts';
 
 export default function Blog({ posts }: { posts: PostMeta[] }) {
   return (
-    <PageLayout>
+    <PageLayout
+      seo={{
+        title: 'Blog - Miguel Quispe',
+      }}
+    >
       <section className="u-wrap">
         <Container small>
           <h3 className="font-secondary u-mb-10">ARTÍCULOS</h3>
