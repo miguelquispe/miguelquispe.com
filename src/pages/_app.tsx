@@ -6,7 +6,6 @@ import Script from 'next/script';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Script>{`window.dataLayer = window.dataLayer || [];`}</Script>
       <GTMscript />
       <Component {...pageProps} />
     </>
