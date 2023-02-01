@@ -7,7 +7,7 @@ import type { Post } from '@components/Post';
 
 const root = process.cwd();
 
-const POSTS_PATH = path.join(root, 'content', 'blog').replace(/\\/g, '//');
+const POSTS_PATH = path.join(root, 'content', 'posts').replace(/\\/g, '//');
 
 export function getSlugs(): string[] {
   const paths = sync(`${POSTS_PATH}/*.mdx`);
