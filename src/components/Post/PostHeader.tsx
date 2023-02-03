@@ -3,7 +3,12 @@ import { es } from 'date-fns/locale';
 import styles from './Post.module.scss';
 import { PostMeta } from './types';
 
-const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
+const PostHeader = ({
+  title,
+  readingTime,
+  publishedAt,
+  tags = [],
+}: PostMeta) => {
   return (
     <header className={styles.header}>
       <h1>{title}</h1>
@@ -19,6 +24,7 @@ const PostHeader = ({ title, readingTime, publishedAt }: PostMeta) => {
           />{' '}
           Miguel Quispe
         </li>
+        {tags.length > 0 && <li>En {tags?.join(', ')}</li>}
         <li style={{ textTransform: 'capitalize' }}>
           {format(parseISO(publishedAt), 'MMMM dd, yyyy', {
             locale: es,
