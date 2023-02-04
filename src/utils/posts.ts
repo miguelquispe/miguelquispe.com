@@ -24,6 +24,7 @@ export function getSlugs(): string[] {
 export function getAllPosts(): Post[] {
   const posts = getSlugs()
     .map((slug) => getPostFromSlug(slug))
+    .filter((post) => post.draft !== true)
     .sort((a, b) => dateSortDesc(a.meta.publishedAt, b.meta.publishedAt));
 
   return posts;
@@ -46,6 +47,7 @@ export function getPostFromSlug(slug: string): Post {
       type: data.type ?? null,
       image: data.image ?? null,
     },
+    draft: data.draft ?? false,
   };
 }
 

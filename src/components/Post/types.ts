@@ -1,7 +1,7 @@
-
 export interface Post {
-  content: string,
-  meta: PostMeta
+  content: string;
+  meta: PostMeta;
+  draft: boolean;
 }
 
 export interface PostMeta {
