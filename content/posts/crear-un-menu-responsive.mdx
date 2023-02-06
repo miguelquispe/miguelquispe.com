@@ -1,0 +1,247 @@
+---
+title: 'Crear un menú responsive con CSS y JavaScript'
+description: 'En este tutorial veremos el proceso de como crear un menú responsive utilizando CSS y algo de JavaScript.'
+publishedAt: '2023-01-28'
+type: 'article'
+tags:
+  - 'CSS'
+image: '/images/posts/crear-un-menu-responsive/banner-menu-responsive.jpg'
+---
+
+<PostImage
+  src="/images/posts/crear-un-menu-responsive/banner-menu-responsive.jpg"
+  layout="responsive"
+  width={880}
+  height={340}
+  objectFit="contain"
+  alt="Image de tutorial menu responsive"
+/>
+
+En este tutorial veremos el proceso de como crear un menú responsive, utilizando CSS y algo de JavaScript.
+
+## Estructura HTML
+
+Antes que todo, debemos definir el [meta tag viewport](http://www.desarrolloweb.com/articulos/etiqueta-meta-viewport.html) dentro del tag head, que nos permite configurar como se debe interpretar el contenido de nuestra web en los dispositivos móviles.
+
+```html:index.html
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1"
+/>
+```
+
+Ahora agregamos el código html para nuestro menú.
+
+```html:index.html
+<header>
+  <div id="logo">
+    <a href="#">MQ</a>
+  </div>
+  <nav id="menu">
+    <button class="nav-mobile" id="nav-mobile">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-menu">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Tutoriales</a></li>
+      <li><a href="#">Wordpress</a></li>
+      <li><a href="#">Recursos Web</a></li>
+      <li><a href="#">Demos</a></li>
+    </ul>
+  </nav>
+</header>
+```
+
+Como puedes observar en el código de arriba, he creado un sencillo menú en una lista `<ul/>` con 5 enlaces, dentro del tag nav, también tengo un tag `<a/>` con id "nav-mobile", que nos servirá como botón para desplegar el menú.
+
+## Estilos CSS
+
+Ahora aplicamos los estilos para para alinear el logo y el menú, en esta ocasión usaré SCSS. Es recomendable empezar por la vista mobile(mobile first). En los comentarios explicaré, un poco, que es lo que hace cada estilo definido.
+
+```scss:style.scss
+// Definimos un ancho fluido y una altura fija para nuestro menú
+header {
+  background: #22282e;
+  height: 60px;
+  position: relative;
+  width: 100%;
+}
+
+// El logo sera flotado a la izquierda
+#logo {
+  float: left;
+  padding: 6px 20px;
+  width: auto;
+  height: 60px;
+
+  a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    line-height: 44px;
+    text-transform: uppercase;
+  }
+}
+
+// Fijamos nuestro nav en 100% ancho
+#menu {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+
+  // Quitamos estilos por defecto de el tag UL
+  ul {
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+  }
+
+  // Convertimos nuestra lista de enlaces en un menú horizontal
+  li {
+    display: block;
+    background: #33363b;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 1px solid #282b30;
+
+    // Damos estilo a nuestros enlaces
+    a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      line-height: 60px;
+      padding: 0 26px;
+
+      &:active,
+      &:focus   {
+        color: #ffc700;
+      }
+    }
+  }
+
+  // Agregamos una animación al despligue del menú
+  .open-menu {
+    box-shadow: 0 1px 2px rgba(0,0,0,.5);
+    max-height: 400px;
+    transition: max-height .4s ease;
+  }
+}
+
+// Botón mostrar menú
+#nav-mobile {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  float: right;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  right: 0;
+  top: -60px;
+  opacity: 0.6;
+
+  // Agregaremos esta clase a #nav-mobile, cuando el menu mobile haya sido desplegado
+  &.nav-open {
+    opacity: 1;
+  }
+
+  span {
+    display: block;
+    width: 60%;
+    margin: 4px auto;
+    height: 4px;
+    background: #fff
+  }
+}
+```
+
+Como pueden ver he definido un **max-height:0** para el elemento ul y ocultado su contenido con overflow:hidden, esto se hizo para dar una animación cuando se despliegue el menú en la clase .open-menu.
+
+## Responsive
+
+Utilizando media queries, establecemos los estilos para cambiar la apariencia de nuestro menú en diferentes tamaños de pantalla.
+
+En este caso, he establecido un breakpoint para que nuestro menú cambie cuando el ancho de la pantalla sea mayor, o similar, al de una Tablet. Lo cual nos permitirá aplicar los estilos en pantallas más grandes.
+
+```scss:style.scss
+...
+@media only screen and (min-width: 768px) {
+  // ocultamos botón #nav-mobile
+  #nav-mobile{ display: none; }
+
+  // Nuestro nav con id #menu lo flotaremos a la derecha
+  #menu {
+    width: auto;
+    float: right;
+    top: 0;
+    position: relative;
+
+    .open-menu {
+      box-shadow: none;
+    }
+
+    // Hacemos reset de max-height
+    ul {
+      max-height: inherit;
+    }
+
+    // Alineamos los items de forma horizontal
+    li {
+      float: left;
+      border: 0;
+      background: transparent;
+
+      a {
+        display: block;
+        color: #fff;
+        padding: 0 26px;
+
+        &:hover {
+          color: #ffc700;
+          background: #151a1e;
+        }
+      }
+    }
+  }
+}
+```
+
+En esta parte hemos ocultado el elemento #nav-mobile con un **display:none**, para que no se muestre en las pantallas de escritorio.
+
+## Desplegar menú con JavaScript
+
+Finalmente, asignamos una función al **evento click** en **#nav-mobile**, con el método **.on()** de jQuery, que nos servirá para agregar la clase “nav-active”, y a la vez agregar la clase “open-menu” al elemento ul dentro de nav, con el método toggleClass de jQuery, para ver el despliegue del menú con una simpática animación definida en el css.
+
+```js:script.js {1,3-4} showLineNumbers
+// JavaScript Version
+const buttonMenu = document.querySelector('#nav-mobile');
+const navMenu = document.querySelector('.nav-menu');
+
+buttonMenu.addEventListener('click', (e) => {
+  e.currentTarget.classList.toggle('nav-open');
+  navMenu.classList.toggle('open-menu');
+});
+
+// jQuery Version
+$(function() {
+    var btn_movil = $(‘#nav-mobile’),
+    menu = $(‘#menu’).find(‘ul’);
+
+    // Al dar click agregar/quitar clases que permiten el despliegue del menú
+    btn_movil.on(‘click’, function (e) {
+        e.preventDefault();
+        var el = $(this);
+        el.toggleClass(‘nav-active’);
+        menu.toggleClass(‘open-menu’);
+    });
+});
+```
+
+Y así es como tenemos un menú responsive que se adaptara a cualquier tamaño de pantalla.

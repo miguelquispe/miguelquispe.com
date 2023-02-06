@@ -1,0 +1,82 @@
+---
+title: 'Personalizar Scrollbar con css'
+description: 'Mejora la apariencia del scrollbar utilizando css y el pseudo-elemento -webkit-scrollbar'
+publishedAt: '2023-01-21'
+type: 'article'
+tags:
+  - 'CSS'
+image: '/images/posts/personalizar-scrollbar-con-css/banner-scrollbar-css.jpg'
+---
+
+<PostImage
+  src="/images/posts/personalizar-scrollbar-con-css/banner-scrollbar-css.jpg"
+  layout="responsive"
+  width={880}
+  height={340}
+  objectFit="contain"
+  alt="scrollbar personalizado con css"
+/>
+
+Muchas veces nos vemos en la necesidad de personalizar el scrollbar (barra de desplazamiento), ya que en algunos casos su apariencia no se ajusta con el diseño UI del proyecto en el que trabajamos.
+
+Para lograrlo utilizaremos el pseudo-elemento `-webkit-scrollbar` que está presente en navegadores que usan Webkit como: Chrome, Safari, Microsoft Edge.
+
+## Partes del Scrollbar
+
+Primero identificaremos los pseudo-elementos que componen el scrollbar para luego definir nuestros estilos.
+
+{/* prettier-ignore */}
+```css
+::-webkit-scrollbar              { /* 1 */ }
+::-webkit-scrollbar-button       { /* 2 */ }
+::-webkit-scrollbar-track        { /* 3 */ }
+::-webkit-scrollbar-track-piece  { /* 4 */ }
+::-webkit-scrollbar-thumb        { /* 5 */ }
+::-webkit-scrollbar-corner       { /* 6 */ }
+::-webkit-resizer                { /* 7 */ }
+```
+
+![Partes scrollbar. Fuente: css-tricks.com](/images/posts/personalizar-scrollbar-con-css/partes-anatomia-scrollbar-css.png)
+
+## Personalizar scrollbar
+
+Ahora que conocemos las partes del scrollbar podemos mejorar su apariencia.
+
+```css
+::-webkit-scrollbar {
+  width: 10px;
+  background: #dbe8ec;
+}
+::-webkit-scrollbar-button {
+  width: 8px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #3c454e;
+  border: thin solid #1a1f25;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: -webkit-linear-gradient(top, #5aafb0, #4ca06d);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 225, 0.5), inset 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+
+  border: thin solid #232c34;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: -webkit-linear-gradient(top, #4ca06d, #5aafb0);
+}
+```
+
+También podemos usar pseudo-clases para los diferentes estados del scrollbar.
+
+```css
+/* Pseudo-clase */
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(77, 161, 112, 0.6);
+}
+```
