@@ -10,6 +10,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrism from 'rehype-prism-plus';
 
 import { PostHeader, PostMeta, PostImage } from '@components/Post';
+import remarkGfm from 'remark-gfm';
 
 interface MDXPost {
   source: MDXRemoteSerializeResult<Record<string, unknown>>;
@@ -53,6 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { content, meta } = getPostFromSlug(slug);
   const mdxSource = await serialize(content, {
     mdxOptions: {
+      remarkPlugins: [remarkGfm],
       rehypePlugins: [
         rehypeSlug,
         rehypeCodeTitles,
