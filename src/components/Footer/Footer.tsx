@@ -8,7 +8,9 @@ export default function Footer() {
       <Container>
         <hr />
         <div className="u-flex u-flexJustifyBetween">
-          <p className={styles.copyright}>Miguel Quispe 2023</p>
+          <p className={styles.copyright}>
+            Miguel Quispe {`© ${new Date().getFullYear()}`}
+          </p>
           <nav className="u-flex">
             <Link href="/">
               <a>Inicio</a>

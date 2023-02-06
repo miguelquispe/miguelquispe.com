@@ -4,7 +4,13 @@ import Link from 'next/link';
 import styles from './Post.module.scss';
 import { PostMeta } from './types';
 
-const PostItem = ({ title, slug, publishedAt, tags }: PostMeta) => {
+const PostItem = ({
+  title,
+  slug,
+  readingTime,
+  publishedAt,
+  tags,
+}: PostMeta) => {
   return (
     <article className={styles.main}>
       <h3 className="font-primary">
@@ -21,6 +27,7 @@ const PostItem = ({ title, slug, publishedAt, tags }: PostMeta) => {
         {tags?.map((tag) => (
           <li key={tag}>{tag}</li>
         ))}
+        <li>{Math.ceil(readingTime)} min. lectura</li>
       </ul>
     </article>
   );
