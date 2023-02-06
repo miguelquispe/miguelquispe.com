@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styles from './Post.module.scss';
 import { PostMeta } from './types';
 
-const PostItem = ({ title, slug, readingTime, publishedAt }: PostMeta) => {
+const PostItem = ({ title, slug, publishedAt, tags }: PostMeta) => {
   return (
     <article className={styles.main}>
       <h3 className="font-primary">
@@ -18,8 +18,9 @@ const PostItem = ({ title, slug, readingTime, publishedAt }: PostMeta) => {
             locale: es,
           })}
         </li>
-        {/* <li>JavaScript</li> */}
-        <li>{Math.ceil(readingTime)} min. lectura</li>
+        {tags?.map((tag) => (
+          <li key={tag}>{tag}</li>
+        ))}
       </ul>
     </article>
   );

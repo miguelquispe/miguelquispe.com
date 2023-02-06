@@ -24,12 +24,13 @@ const PostHeader = ({
           />{' '}
           Miguel Quispe
         </li>
-        {tags.length > 0 && <li>En {tags?.join(', ')}</li>}
+
         <li style={{ textTransform: 'capitalize' }}>
           {format(parseISO(publishedAt), 'MMMM dd, yyyy', {
             locale: es,
           })}
         </li>
+        <li>En {tags?.join(', ')}</li>
         <li>{Math.ceil(readingTime)} minutos de lectura</li>
       </ul>
     </header>
