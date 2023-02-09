@@ -1,0 +1,153 @@
+---
+title: 'Instalar Google Tag Manager en Next.js 12 - 13'
+description: 'En este tutorial aprenderás como instalar código Google Tag Manager en un proyecto con Next.js.'
+publishedAt: '2023-02-09'
+type: 'article'
+image: '/images/cover-share-page.png'
+tags:
+  - 'Next.js'
+---
+
+En este tutorial aprenderás como instalar GTM, pero los pasos mostrados también sirven para instalar scripts de terceros utilizando el componente [`<Script />` de Next.js](https://nextjs.org/docs/basic-features/script)
+
+## Código Google Tag Manager (GTM)
+
+Para empezar debemos obtener nuestro código de instalación. Para ello vamos a la página de [Google Tag Manager](https://tagmanager.google.com/#/home) y seleccionamos la cuenta a integrar, allí hacemos click en configuración y luego en Instalar Google Tag Manager el cual nos mostrara los códigos que debemos utilizar.
+
+![Cuenta de GTM](/images/posts/instalar-google-tag-manager-next-js/screen-1.png)
+
+![Configuración cuenta GTM](/images/posts/instalar-google-tag-manager-next-js/screen-2.png)
+
+![Código instalación GTM](/images/posts/instalar-google-tag-manager-next-js/screen-3.png)
+
+## Componentes GTM
+
+Ahora vamos a crear dos componentes, donde cada uno de ellos incluirá parte del código GTM, esto nos permite mantener nuestro proyecto organizado y sera de utilidad ante una posible migración a Next.js 13.
+
+Para ello creamos una carpeta GTM y dentro un archivo `index.js`, en mi caso ubique la carpeta en `src/components`.
+
+Dentro del archivo `index.js`, lo primero que haremos es importar `<Script />` desde `next/script`, luego creamos y exportamos las funciones **GTMscript** y **GTMnoscript**.
+
+```js:index.js {3-16,18-27}
+import Script from 'next/script';
+
+export const GTMscript = () => (
+  <>
+    <Script>{`window.dataLayer = window.dataLayer || [];`}</Script>
+    <Script id="google-tag-manager" strategy="afterInteractive">
+      {`
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer', 'GTM-123456')
+    `}
+    </Script>
+  </>
+);
+
+export const GTMnoscript = () => (
+  <noscript
+    dangerouslySetInnerHTML={{
+      __html: `
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-123456"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    `,
+    }}
+  />
+);
+
+```
+
+## Instalar GTM en Next.js 12
+
+Para poder utilizar los componentes GTM es necesario sobrescribir [Document](https://nextjs.org/docs/advanced-features/custom-document) y [App](https://nextjs.org/docs/advanced-features/custom-app), componentes que vienen por defecto en Next.js, para ello creamos los archivos `_document.js` y `_app.js` y los ubicamos dentro de la carpeta pages: `pages/_app.js` `pages/_document.js`
+
+Luego, dentro del archivo `_app.js` importamos el componente **GTMscript** y lo agregamos dentro de **MyApp**.
+
+```js:_app.js {1,8}
+import { GTMnoscript } from '@components/GTM';
+import '../styles/globals.css';
+
+function MyApp({ Component, pageProps }) {
+  return (
+  <>
+    <Component {...pageProps} />
+    <GTMscript />
+  </>
+  )
+}
+
+export default MyApp
+```
+
+Repetimos el paso anterior con el archivo `_document.js` pero esta vez importamos el componente **GTMnoscript** y lo agregamos dentro de **Document**.
+
+```js:_document.js {2,9}
+import { Html, Head, Main, NextScript } from 'next/document'
+import { GTMnoscript } from '@components/GTM';
+
+export default function Document() {
+  return (
+    <Html>
+      <Head />
+      <body>
+        <GTMnoscript />
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  )
+}
+```
+
+## Instalar GTM en Next.js 13 /app
+
+⚠️ Esta apartado aplica para proyectos que utilicen [Next 13 con el directorio **/app** (beta)](https://beta.nextjs.org/docs/getting-started).
+
+Aquí debemos abrir el archivo `app/layout.js` donde importamos los componentes **GTMscript**, **GTMnoscript** y los incluimos dentro de **RootLayout**.
+
+```js:layout.js {2,9,12}
+import './globals.css'
+import { GTMnoscript, GTMscript } from '@/components/GTM'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head />
+      <body>
+        <GTMnoscript />
+        {children}
+        </body>
+      <GTMscript />
+    </html>
+  )
+}
+```
+
+## Comprobar instalación GTM
+
+Dentro del dashboard de nuestra cuenta GTM hacemos click al botón **Vista Previa**
+
+![Vista previa GTM](/images/posts/instalar-google-tag-manager-next-js/screen-4.png)
+
+Esto nos abrirá **Tag Assistant** donde ingresaremos la URL a conectar. En mi caso utilice http://localhost:3000 para realizar pruebas previo despliegue a producción pero puedes poner un dominio también.
+
+![Vista previa GTM](/images/posts/instalar-google-tag-manager-next-js/screen-5.png)
+
+Al hacer click en el botón **Connect** se abrirá una nueva ventana del navegador mostrando un cuadro notificando la conexión a Tag Assistant.
+
+![Cuadro Tag Assistant](/images/posts/instalar-google-tag-manager-next-js/screen-6.png)
+
+Luego en Tag Assistant veremos un modal con el texto **Connected!** confirmando que nuestro código GTM ha sido instalado correctamente.
+
+![Tag Assistant Conectado](/images/posts/instalar-google-tag-manager-next-js/screen-7.png)
+
+Hacemos click en el botón **Continue** y veremos los diferentes etiquetas(tags) que tenemos configurado en GTM.
+Como por ejemplo, en mi sitio estoy cargando Google Analytics desde GTM.
+
+![Etiquetas en Tag Assistant](/images/posts/instalar-google-tag-manager-next-js/screen-8.png)
+
+Y listo, de esta forma hemos instalado Google Tag Manager en nuestro proyecto.
+
+Gracias por leer, que tengas un día maravilloso! 🌞
