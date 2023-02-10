@@ -3,12 +3,13 @@ import PageLayout from 'layout/Page';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { getFiles, getPostFromSlug } from 'utils/posts';
 
-import type { Post } from '@components/Post';
+import { Post, PostLink } from '@components/Post';
 import { PostHeader, PostImage } from '@components/Post';
 import { MDXRemote } from 'next-mdx-remote';
 
 const components = {
   PostImage,
+  a: PostLink,
 };
 
 export default function PostPage({
