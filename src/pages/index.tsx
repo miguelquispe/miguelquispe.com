@@ -1,5 +1,3 @@
-import Head from 'next/head';
-
 import styles from '@styles/Home.module.scss';
 import PageLayout from 'layout/Page';
 import Container from '@components/Container';
@@ -28,6 +26,7 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
           style={{
             opacity: 0.45,
           }}
+          alt=""
         />
       </section>
       <section className="u-wrap">

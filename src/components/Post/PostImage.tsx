@@ -4,7 +4,11 @@ import { HTMLProps } from 'react';
 const PostImage = (props: HTMLProps<HTMLImageElement>) => {
   return (
     <div className="post-image">
-      <Image {...(props as ImageProps)} layout="responsive" />
+      <Image
+        {...(props as ImageProps)}
+        alt={props.alt || ''}
+        layout="responsive"
+      />
     </div>
   );
 };

@@ -21,7 +21,7 @@ export function getSlugs(): string[] {
   return paths.map((path) => {
     const pathContent = path.split('/');
     const fileName = pathContent[pathContent.length - 1];
-    const [slug, _extension] = fileName.split('.');
+    const [slug] = fileName.split('.');
 
     return slug;
   });

@@ -16,15 +16,27 @@ export default function Footer() {
               <a>Inicio</a>
             </Link>
 
-            <a href="https://www.linkedin.com/in/quispemiguel/" target="_blank">
+            <a
+              href="https://www.linkedin.com/in/quispemiguel/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               LinkedIn
             </a>
 
-            <a href="https://github.com/miguelquispe" target="_blank">
+            <a
+              href="https://github.com/miguelquispe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               GitHub
             </a>
 
-            <a href="https://twitter.com/miguelquispecom" target="_blank">
+            <a
+              href="https://twitter.com/miguelquispecom"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Twitter
             </a>
           </nav>

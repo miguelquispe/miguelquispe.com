@@ -1,5 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import Image from 'next/image';
 import styles from './Post.module.scss';
 import { PostMeta } from './types';
 
@@ -15,7 +16,7 @@ const PostHeader = ({
 
       <ul className={styles.meta}>
         <li>
-          <img
+          <Image
             src="/images/avatar.jpg"
             className="avatar"
             width={24}
