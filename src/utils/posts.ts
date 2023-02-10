@@ -3,7 +3,13 @@ import { sync } from 'glob';
 import fs from 'fs';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
-import type { Post } from '@components/Post';
+import type { Post, PostMeta } from '@components/Post';
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypePrism from 'rehype-prism-plus';
+import rehypeSlug from 'rehype-slug';
+import rehypeCodeTitles from 'rehype-code-titles';
+
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 const root = process.cwd();
 
@@ -21,31 +27,61 @@ export function getSlugs(): string[] {
   });
 }
 
-export function getAllPosts(): Post[] {
-  const posts = getSlugs()
-    .map((slug) => getPostFromSlug(slug))
-    .filter((post) => post.draft !== true)
-    .sort((a, b) => dateSortDesc(a.meta.publishedAt, b.meta.publishedAt));
-
-  return posts;
+export async function getFiles(type: string): Promise<string[]> {
+  return fs.readdirSync(path.join(root, 'content', type));
 }
 
-export function getPostFromSlug(slug: string): Post {
+export async function getAllPosts(): Promise<PostMeta[]> {
+  const files = fs.readdirSync(POSTS_PATH);
+
+  const allPosts: PostMeta[] = [];
+
+  files.forEach((file) => {
+    const mdxSource = fs.readFileSync(path.join(POSTS_PATH, file), 'utf-8');
+    const { content, data: frontmatter } = matter(mdxSource);
+
+    if (frontmatter.draft !== true) {
+      allPosts.push({
+        ...frontmatter,
+        slug: file.replace(/\.(mdx|md)/, ''),
+        publishedAt: (frontmatter.publishedAt ?? new Date()).toString(),
+        readingTime: readingTime(content).minutes,
+      });
+    }
+  });
+
+  return allPosts.sort((a, b) => dateSortDesc(a.publishedAt, b.publishedAt));
+}
+
+export async function getPostFromSlug(slug: string): Promise<Post> {
   const postPath = path.join(POSTS_PATH, `${slug}.mdx`);
-  const source = fs.readFileSync(postPath);
-  const { content, data } = matter(source);
+  const fileContent = fs.readFileSync(postPath, 'utf-8');
+  const { content, data } = matter(fileContent);
+
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      rehypePlugins: [
+        rehypeSlug,
+        rehypeCodeTitles,
+        rehypePrism,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+      format: 'mdx',
+    },
+  });
 
   return {
-    content,
+    content: mdxSource,
     meta: {
       slug,
-      description: data.description ?? '',
-      title: data.title ?? slug,
-      tags: (data.tags ?? []).sort(),
       publishedAt: (data.publishedAt ?? new Date()).toString(),
       readingTime: readingTime(content).minutes,
-      type: data.type ?? null,
-      image: data.image ?? null,
+      ...data,
     },
     draft: data.draft ?? false,
   };

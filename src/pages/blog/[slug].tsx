@@ -1,27 +1,21 @@
 import Container from '@components/Container';
 import PageLayout from 'layout/Page';
-import { serialize } from 'next-mdx-remote/serialize';
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import { getPostFromSlug, getSlugs } from 'utils/posts';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
-import rehypeSlug from 'rehype-slug';
-import rehypeCodeTitles from 'rehype-code-titles';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypePrism from 'rehype-prism-plus';
+import { getFiles, getPostFromSlug } from 'utils/posts';
 
-import { PostHeader, PostMeta, PostImage } from '@components/Post';
-import remarkGfm from 'remark-gfm';
-
-interface MDXPost {
-  source: MDXRemoteSerializeResult<Record<string, unknown>>;
-  meta: PostMeta;
-}
+import type { Post } from '@components/Post';
+import { PostHeader, PostImage } from '@components/Post';
+import { MDXRemote } from 'next-mdx-remote';
 
 const components = {
   PostImage,
 };
 
-export default function PostPage({ post }: { post: MDXPost }) {
+export default function PostPage({
+  post,
+}: {
+  post: Pick<Post, 'content' | 'meta'>;
+}) {
   const seoConfig = {
     ...post.meta,
   };
@@ -32,7 +26,7 @@ export default function PostPage({ post }: { post: MDXPost }) {
         <Container small>
           <PostHeader {...post.meta} />
           <div className="post-content">
-            <MDXRemote {...post.source} components={components} />
+            <MDXRemote {...post.content} components={components} />
           </div>
         </Container>
       </section>
@@ -41,7 +35,10 @@ export default function PostPage({ post }: { post: MDXPost }) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getSlugs().map((slug) => ({ params: { slug } }));
+  const posts = await getFiles('posts');
+  const paths = posts.map((post) => ({
+    params: { slug: post.replace(/\.mdx/, '') },
+  }));
 
   return {
     paths,
@@ -51,24 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params as { slug: string };
-  const { content, meta } = getPostFromSlug(slug);
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [
-        rehypeSlug,
-        rehypeCodeTitles,
-        rehypePrism,
-        [
-          rehypeAutolinkHeadings,
-          {
-            behavior: 'wrap',
-          },
-        ],
-      ],
-      format: 'mdx',
-    },
-  });
+  const { content, meta } = await getPostFromSlug(slug);
 
-  return { props: { post: { source: mdxSource, meta } } };
+  return { props: { post: { content, meta } } };
 };
