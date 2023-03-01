@@ -1,0 +1,318 @@
+---
+title: 'Crea tu primer componente con TailwindCSS: Tutorial para principiantes'
+description: 'En este tutorial vamos a crear un componente Bottom Sheet usando TailwindCSS.'
+publishedAt: '2023-03-01'
+type: 'article'
+tags:
+  - 'TailwindCSS'
+---
+
+En este tutorial vamos a crear un **componente Bottom Sheet** que mostrará el resumen de una cita médica.
+
+Nos enfocaremos en utilizar las clases y el modo oscuro de TailwindCSS, además escribiremos un poco de JavaScript para agregar interacción.
+
+![Vista previa Componente Bottom Sheet](/images/posts/crea-tu-primer-componente-tailwindcss/preview.gif)
+
+Así que empecemos... Pero antes, una breve introducción a TailwindCSS.
+
+## ¿Qué es TailwindCSS?
+
+TailwindCSS es un framework CSS que permite un desarrollo rápido y ágil gracias a su enfoque [utility-first](https://tailwindcss.com/docs/utility-first), el cual permite aplicar clases CSS predefinidas directamente en los elementos HTML. Esto significa que no es necesario escribir CSS personalizado para cada componente, sino que se pueden aplicar clases utilitarias para lograr el estilo deseado. Además, gracias a su amplia gama de clases podemos cubrir la mayoría de estilos necesarios en un proyecto, lo que lo hace muy eficiente y fácil de usar.
+
+Ahora que entendemos cómo nos ayuda TailwindCSS, podemos continuar con el tutorial.
+
+## Configurando nuestro editor de código
+
+TailwindCSS trae una gran cantidad de clases utilitarias, por lo que puede ser difícil recordar cada una de ellas. Afortunadamente, existen extensiones como [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) (VS Code), que permiten el auto-completado de cada clase.
+
+⚠️ **Nota**: En VS Code, es necesario tener el archivo tailwind.config.js creado en la raíz del proyecto para que funcione el auto-completado.
+
+## Paso 1: Instalar TailwindCSS
+
+Para efectos prácticos de este tutorial instalaremos TailwindCSS a traves de CDN, pero recuerda que también puedes instalarlo usando su CLI y PostCSS.
+
+Agregamos el script del CDN en nuestro documento HTML.
+
+```html {8}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Componente Bottom Sheet con TailwindCSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    ...
+    <script src="script.js"></script>
+  </body>
+</html>
+```
+
+Ahora empecemos a poner en practica TailwindCSS, para ello vamos a dar estilos al `<body />` utilizando las siguientes clases:
+
+- **bg-gray-100** : Color de fondo en gris.
+- **relative** : Asigna un `position: relative`
+- **h-[1200px]** : Asigna la altura `height: 1200px`.
+
+```html
+<body class="bg-gray-100  relative h-[1200px]">
+  <!-- Bottom Sheet Container /-->
+  <!-- Fixed Bottom /-->
+</body>
+```
+
+Como habrás notado para asignar la altura hemos utilizado corchetes `h-[1200px]`, este método es conocido como [valor arbitrario](https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values) que TailwindCSS usará para crear una clase css durante su ejecución(**on the fly**).
+
+## Paso 2: Creando componente Bottom Sheet
+
+Primero, crearemos un contenedor, para ello insertamos un div con estás clases:
+
+- **h-full w-full**: Asigna un alto y ancho del 100%.
+- **fixed top-0 left-0 z-10**: Asigna un position fixed con z-index de 10.
+- **invisible**: Asigna un `visibility: hidden` para mantener oculto el contenedor.
+- **transition-[visible]**: Agregamos transition a la propiedad visibility: visible
+
+```html
+<!-- Bottom Sheet Container -->
+<div
+  id="container"
+  class="h-full w-full fixed top-0 left-0 z-10 invisible transition-[visible]"
+>
+  <!-- Bottom Sheet -->
+  ...
+  <!-- /Bottom Sheet -->
+</div>
+<!-- /Bottom Sheet Container -->
+```
+
+Luego, creamos el componente Bottom Sheet, este tendrá una cabecera con un titulo y un botón cerrar. Además, utilizaremos nuevas clases:
+
+- **rounded-t rounded-t-xl**: Asigna `border-radius` a la parte superior e indica el tamaño del mismo.
+- **transition-transform**: Agrega `transition` a la propiedad `transform` con una duración por defecto de 150ms.
+- **delay-75**: Asigna un `transition-delay` de 75ms.
+- **translate-y-full**: Asigna un `transform: translateY(100%)`.
+- **p-4**: Asigna padding de `1rem/16px` a todo el contenedor.
+- **py-2**: Asigna padding top y bottom de 8px.
+- **ml-2**: Asigna un `margin-left: 8px`.
+- **flex flex-row justify-between items-center flex-1**: Asigna propiedades Flexbox.
+- **divide-y**: Asigna bordes entre elementos apilados.
+- **hover:bg-purple-500**: Modifica el `background-color` utilizando la [pseudo-clase :hover](https://tailwindcss.com/docs/hover-focus-and-other-states).
+
+```html
+<!-- Bottom Sheet -->
+<div
+  id="bottom-sheet"
+  class="bg-white w-full fixed bottom-0 rounded-t rounded-t-xl transition-transform translate-y-full delay-75"
+>
+  <div class="flex flex-row justify-between items-center w-full p-4">
+    <div class="text-xl font-bold">Resumen de cita</div>
+    <button id="btn-close" class="appearance-none">
+      <img src="images/cross.svg" class="w-6" alt="" />
+    </button>
+  </div>
+  <!-- Resumen Cita -->
+  <div class="p-4">
+    <ul class="list-none divide-y">
+      <li class="flex items-start py-2">
+        <img src="images/calendar.svg" class="w-6" alt="" />
+
+        <div class="ml-4 flex-1">
+          <p><strong>Fecha de cita</strong></p>
+          <p>10, Marzo 2023</p>
+        </div>
+      </li>
+      <li class="flex items-start py-2">
+        <img src="images/clock.svg" class="w-6" alt="" />
+        <div class="ml-4 flex-1">
+          <p><strong>Hora de cita</strong></p>
+          <p>10:00 a.m.</p>
+        </div>
+      </li>
+      <li class="flex items-start py-2">
+        <img src="images/document.svg" class="w-6" alt="" />
+        <div class="ml-4 flex-1">
+          <p><strong>Especialidad</strong></p>
+          <p>Medicina General</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- / Resumen Cita -->
+
+  <div class="p-4">
+    <button
+      class="bg-purple-600 text-white p-4 w-full rounded-xl font-semibold shadow-sm hover:bg-purple-500"
+    >
+      Reservar
+    </button>
+  </div>
+</div>
+<!-- / Bottom Sheet-->
+```
+
+## Paso 3: Agregar botón Ver resumen
+
+Como habrás notado en el paso anterior, el componente Bottom Sheet se mantiene oculto (`invisible`) y además esta trasladado al 100% en el eje vertical (`translate-y-full`). Por esta razón, vamos a añadir un **botón** que al hacerle `click` hará aparecer nuestro componente.
+
+```html
+<!-- Fixed Button -->
+<div class="bg-white fixed bottom-0 w-full p-4 border-t-[1px] border-solid">
+  <button
+    id="btn-open"
+    class="bg-slate-900 text-white p-4 w-full rounded-xl font-semibold shadow-sm hover:bg-slate-700"
+  >
+    Ver resumen
+  </button>
+</div>
+<!-- Fixed Button -->
+```
+
+## Paso 4: Interacción con JavaScript
+
+Ahora en JavaScript usando `document.querySelector` seleccionamos los elementos necesarios para realizar la interacción de Mostrar/Ocultar.
+
+```js:script.js
+// Elements
+const $bottomSheetWrap = document.querySelector("#container");
+const $bottomSheet = document.querySelector("#bottom-sheet");
+const $btn = document.querySelector("#btn-open");
+const $btnClose = document.querySelector("#btn-close");
+
+$btnOpen.addEventListener("click", open, false);
+$btnClose.addEventListener("click", close, false);
+
+function open() {
+  $bottomSheetWrap.classList.toggle("!visible");
+  $bottomSheet.classList.toggle("translate-y-0");
+}
+
+function close() {
+  $bottomSheet.classList.remove("translate-y-0");
+
+  setTimeout(() => {
+    $bottomSheetWrap.classList.remove("!visible");
+  }, 250);
+}
+```
+
+## Plus: Modo Oscuro (Dark mode)
+
+TailwindCSS incluye una [variante dark](https://tailwindcss.com/docs/dark-mode) que nos permite presentar nuestros elementos html con un estilo diferente cuando el tema de color oscuro esta activado en nuestro sistema operativo.
+
+```diff
+- <div class="bg-gray-100"></div>
++ <div class="bg-gray-100 dark:bg-slate-900"></div>
+```
+
+Por defecto, TailwindCSS detectará el tema de color (claro/oscuro) activado en nuestro sistema operativo utilizando el media query [**`prefers-color-scheme`.**](https://web.dev/prefers-color-scheme/)
+
+Vamos a configurar TailwindCSS para activar el modo oscuro de forma manual utilizando un `class` en lugar de `@media`.
+
+```html {9-13}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Componente Bottom Sheet con TailwindCSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      };
+    </script>
+  </head>
+  <body>
+    ...
+    <script src="script.js"></script>
+  </body>
+</html>
+```
+
+Ahora vamos a agregar los estilos dark a nuestros elementos HTML. Aquí haremos uso del filtro `invert` que nos permitirá cambiar el color de los iconos.
+
+{/* prettier-ignore */}
+```diff
+<!-- Bottom Sheet -->
+-<div id="bottom-sheet"  class="bg-white ...">
++<div id="bottom-sheet"  class="bg-white ... dark:bg-slate-800">
+
+<!-- Summary -->
+-<ul class="list-none divide-y">
++<ul class="list-none divide-y dark:text-white dark:divide-slate-700">
+  <li class="flex items-start py-2">
+-   <img src="images/calendar.svg" class="w-6" alt="" />
++   <img src="images/calendar.svg" class="w-6 dark:invert" alt="" />
+  ...
+<!-- /Summary -->
+<!-- /Bottom Sheet -->
+
+<!-- Fixed Button -->
+-<div class="bg-white fixed ..."
++<div class="bg-white fixed ... dark:bg-slate-800 dark:border-slate-600">
+-   <button id="btn-open" class="bg-slate-900 hover:bg-slate-700 ...">Ver resumen</button>
++   <button id="btn-open" class="bg-slate-900 hover:bg-slate-700 ... dark:bg-indigo-600 dark:hover:bg-indigo-500">Ver resumen</button>
+<!-- /Fixed Button -->
+```
+
+También, agregaremos dos botones para hacer el cambio entre el modo Light y Oscuro. Cada botón tendrá un atributo ID para asignarles un evento click mediante JavaScript.
+
+{/* prettier-ignore */}
+```html
+<!-- Light - Dark Buttons -->
+<div class="flex gap-2 p-4">
+  <button id="btn-light"
+    class="rounded-xl bg-slate-50 hover:bg-white ring-1 ring-slate-900/10 px-2 py-2 w-32 text-xs font-bold 
+    dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white"
+  >Light</button>
+
+  <button id="btn-dark"
+    class="rounded-xl bg-slate-50 hover:bg-white ring-1 ring-slate-900/10 px-2 py-2 w-32 text-xs font-bold 
+    dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white"
+  >Dark</button>
+</div>
+<!-- / Light - Dark Buttons-->
+```
+
+{/* prettier-ignore */}
+```js
+...
+const $html = document.documentElement;
+const $btnLight = document.querySelector('#btn-light');
+const $btnDark = document.querySelector('#btn-dark');
+
+$btnLight.addEventListener('click', function () {
+    $html.classList.remove('dark');
+  }, false);
+
+$btnDark.addEventListener('click', function () {
+    $html.classList.add('dark');
+  }, false);
+```
+
+## Demo
+
+Y listo, aquí podemos ver como funciona nuestro componente. También te comparto el [repo del componente](https://github.com/miguelquispe/demo-tutorial-tailwind-principiantes).
+
+<iframe
+  src="https://codesandbox.io/embed/github/miguelquispe/demo-tutorial-tailwind-principiantes/tree/master/?autoresize=1&fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: '100%',
+    height: 500,
+    border: 0,
+    borderRadius: 4,
+    overflow: 'hidden',
+  }}
+  title="miguelquispe/demo-tutorial-tailwind-principiantes"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
+
+## Dato curioso 😛
+
+Debo confesar que es mi primer componente creado con TailwindCSS porque en los proyectos que he participado hasta ahora ya estaba definida la estrategia para crear los estilos de los componentes. Algunos utilizaban BEM, CSS-in-JS, Styled Components, entre otros. Por esta razón, investigué y aprendí cómo utilizar [**TailwindCSS**](https://tailwindcss.com/).
+
+Gracias por leer, que tengas un día maravilloso! 🌞
