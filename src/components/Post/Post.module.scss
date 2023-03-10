@@ -63,3 +63,18 @@
     }
   }
 }
+
+.share {
+  display: flex;
+  margin-top: 2.5rem;
+  gap: 8px;
+  color: $color-purple-400;
+  align-items: center;
+}
+
+.social {
+  &:hover {
+    transform: translateY(-1px);
+    transition: transform 250ms ease;
+  }
+}

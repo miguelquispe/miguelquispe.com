@@ -16,3 +16,9 @@ export interface PostMeta {
   readingTime: number;
   image?: string;
 }
+
+export interface PostShareValues {
+  title: string | undefined;
+  summary: string | undefined;
+  url: string;
+}

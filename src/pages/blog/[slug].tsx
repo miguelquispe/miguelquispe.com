@@ -3,7 +3,7 @@ import PageLayout from 'layout/Page';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { getFiles, getPostFromSlug } from 'utils/posts';
 
-import { Post, PostLink } from '@components/Post';
+import { Post, PostLink, PostShare } from '@components/Post';
 import { PostHeader, PostImage } from '@components/Post';
 import { MDXRemote } from 'next-mdx-remote';
 
@@ -29,6 +29,11 @@ export default function PostPage({
           <div className="post-content">
             <MDXRemote {...post.content} components={components} />
           </div>
+          <PostShare
+            title={post?.meta?.title}
+            summary={post?.meta?.description}
+            url={`https://miguelquispe.com/blog/${post.meta.slug}`}
+          />
         </Container>
       </section>
     </PageLayout>
