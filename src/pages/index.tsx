@@ -13,8 +13,8 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
           <p className="font-secondary greeting">¡Hola 👋, mucho gusto!</p>
           <h1>Soy Miguel Quispe</h1>
           <h2 className="font-secondary">
-            Soy desarrollador Frontend que disfruta de aprender, compartir
-            conocimientos y viajar.
+            Soy desarrollador Frontend - Mobile que disfruta de aprender,
+            compartir conocimientos y viajar.
           </h2>
         </div>
         <Image

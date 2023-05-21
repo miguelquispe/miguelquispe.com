@@ -7,7 +7,7 @@ const SEO = ({ customMeta }: { customMeta?: Partial<PostMeta> }) => {
   const meta = {
     title: 'Miguel Quispe',
     description:
-      'Comparto artículos y tutoriales de lo que aprendo: Frontend, React, CSS y más...',
+      'Comparto artículos y tutoriales de lo que aprendo: Frontend, React, React Native, JavaScript y más...',
     image: '/images/cover-share-page.png',
     type: 'website',
     ...customMeta,
