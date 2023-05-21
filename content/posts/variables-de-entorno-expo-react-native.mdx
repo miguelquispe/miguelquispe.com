@@ -1,0 +1,115 @@
+---
+title: 'Usar variables de entorno con Expo - React Native'
+description: 'Extender la configuración de Expo para utilizar variables de entorno en React Native'
+publishedAt: '2023-05-21'
+type: 'article'
+tags:
+  - 'React Native'
+---
+
+Hace poco terminé el curso [React Native: Conceptos Avanzados [EN]](https://www.udemy.com/course/react-native-advanced/), con el cual reforcé mis conocimientos sobre React Native y aprendí nuevas cosas.
+
+En el curso realicé una aplicación utilizando el [API de Trip Advisor](https://developer-tripadvisor.com/home/), este proyecto se encuentra en un [repo público](https://github.com/miguelquispe/react-native-places-app) por lo que es necesario ocultar la API Key, para ello utilice variables de entorno y aquí te explico como hacerlo.
+
+Para empezar crearemos el archivo `.env` donde agregaremos nuestra API Key.
+
+```shell:.env
+TRIP_ADVISOR_API_KEY=1234567890abcdef
+OTRO_API_KEY=0987654321
+
+# No olvides agregar este archivo al `.gitignore` para que no se suba al repositorio.
+```
+
+Luego instalamos el paquete [dotenv](https://www.npmjs.com/package/dotenv) para poder cargar las variables definidas en el archivo `.env`.
+
+```shell
+npm install dotenv
+```
+
+Lo siguiente será extender la configuración de Expo, para ello debemos crear el archivo `app.config.js` en la raíz del proyecto.
+
+Dentro del archivo importamos el paquete `dotenv` y llamamos al método `config`.
+
+```js:app.config.js {1}
+import "dotenv/config";
+
+...
+```
+
+Ahora exportamos una función que recibe un objeto con la configuración existente (`app.json`) y retornamos un nuevo objeto con la propiedad `extra` que contendrá las variables de entorno.
+
+```js:app.config.js {3-8}
+import "dotenv/config";
+
+export default ({ config }) => ({
+  ...config,
+  extra: {
+    tripAdvisorApiKey: process.env.TRIP_ADVISOR_API_KEY,
+  },
+});
+```
+
+Por otro lado, debemos instalar [expo-constants](https://docs.expo.dev/versions/latest/sdk/constants/) para obtener las propiedades definidas en `app.config.js`.
+
+```shell
+npx expo install expo-constants
+```
+
+Ahora importamos **Constants** desde `expo-constants` y llamamos a la propiedad `expoConfig`.
+
+Por ejemplo, nuestra API Key se encuentra en `expoConfig.extra.tripAdvisorApiKey`.
+
+```jsx:App.js {2,4,11}
+import { StyleSheet, Text, View } from "react-native";
+import Constants from "expo-constants";
+
+const TRIP_ADVISOR_KEY = Constants.expoConfig.extra.tripAdvisorApiKey;
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Trip Advisor Api Key:</Text>
+      <Text style={[styles.title, { fontSize: 32, color: "blue" }]}>
+        {TRIP_ADVISOR_API_KEY}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+});
+```
+
+<PostImage
+  src="/images/posts/variables-de-entorno-expo-react-native/app.png"
+  layout="responsive"
+  width={480}
+  height={340}
+  objectFit="contain"
+  alt="Vista previa App.js"
+/>
+
+Para este ejemplo utilizo el archivo App.js, pero puedes utilizarlo en cualquier parte de tu aplicación.
+
+## Sobre el archivo .env
+
+Si bien el archivo .env no se sube al repositorio, es recomendable agregar un archivo `.env.example` para que otros desarrolladores sepan que variables de entorno deben agregar.
+
+```shell:.env.example
+TRIP_ADVISOR_API_KEY=
+OTRO_API_KEY=
+```
+
+## Conclusión
+
+Podemos modificar la configuración de nuestra App a través del archivo `app.json`, pero cuando necesitamos utilizar información sensible como API Keys, Tokens, etc. es recomendable utilizar variables de entorno.
