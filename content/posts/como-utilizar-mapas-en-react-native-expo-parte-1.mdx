@@ -1,0 +1,153 @@
+---
+title: 'Cómo utilizar mapas en React Native (parte 1)'
+description: 'En esta primera parte aprenderás como integrar Mapas en tu aplicación React Native'
+publishedAt: '2023-06-16'
+type: 'article'
+tags:
+  - 'React Native'
+---
+
+Para este tutorial iniciaremos creado una aplicación React Native con Expo desde la línea de comandos, si no tienes instalado Expo puedes seguir la guía de [Instalación oficial](https://docs.expo.io/get-started/installation/).
+
+```bash
+npx create-expo-app tutorial-react-native-maps
+```
+
+Luego accedemos a nuestra carpeta _tutorial-react-native-maps_
+
+```bash
+cd tutorial-react-native-maps
+```
+
+Ahora vamos a instalar el paquete [react-native-maps](https://github.com/react-native-maps/react-native-maps) en nuestra app
+
+```bash
+npx expo install react-native-maps
+```
+
+En nuestro proyecto vamos a crear la carpeta _screens_ y agregamos el archivo `Map.js` donde importaremos el componente `MapView` desde **react-native-maps**.
+
+```jsx:screens/Map.js {2,4-10}
+import { StyleSheet, View } from "react-native";
+import MapView from "react-native-maps";
+
+export default function MapScreen() {
+  return (
+    <View style={styles.container}>
+      <MapView style={styles.map} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  }
+});
+```
+
+Modificamos nuestro archivo App.js para importar la vista MapScreen y ejecutamos `npx expo start` para ver el resultado.
+
+```jsx:App.js
+import MapScreen from "./screens/Map";
+
+export default function App() {
+  return <MapScreen />;
+}
+```
+
+Abrimos el emulador de iOS o Android y podrás ver el mapa, pero notarás que la ubicación es distinta en cada emulador. Asimismo, verás que en iOS muestra Apple Maps y mientras que Android muestra Google Maps.
+
+<PostImage
+  src="/images/posts/como-utilizar-mapas-en-react-native/default-location.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  objectFit="cover"
+  alt="Image de mapa en emulador iOS y Android"
+/>
+
+Para poder establecer la ubicación del mapa necesitamos agregar la propiedad `initialRegion` al componente `<MapView />`, para ello creamos un objeto con el nombre `initialRegion` con las siguientes propiedades: latitude, longitude, longitudeDelta, latitudeDelta.
+
+```jsx:screens/Map.js {4-9,16}
+...
+
+// Lima, PE
+const initialRegion = {
+  latitude: -12.046374,
+  longitude: -77.042793,
+  longitudeDelta: 0.04,
+  latitudeDelta: 0.02,
+}
+
+export default function Map() {
+  return (
+    <View styles={styles.container}>
+      <MapView
+        styles={styles.map}
+        initialRegion={initialRegion}
+        />
+    </View>
+  );
+}
+...
+
+```
+
+**Nota**: longitudeDelta y latitudeDelta son los valores que determinan el zoom del mapa. [^1]
+
+Guardamos nuestros cambios para poder ver el resultado en el emulador.
+
+<PostImage
+  src="/images/posts/como-utilizar-mapas-en-react-native/initial-region.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Image de mapa en emulador iOS y Android"
+/>
+
+Puedes encontrar la latitud y longitud del lugar de tu interés en [Latitude and Longitude Finder](https://www.latlong.net/)
+
+## Android: Value for latitude cannot be cast from String to Double
+
+Cuando trabajamos con APIs que dentro del response(respuesta) nos entrega información de la ubicación, generalmente nos devuelve los valores de latitud, longitud, etc. como un **tipo de dato string** y esto ocasiona que nuestra App se rompa/colapse en Android.
+
+<PostImage
+  src="/images/posts/como-utilizar-mapas-en-react-native/android-error.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Image de error en Android"
+/>
+
+Para solucionar este problema, debemos convertir los valores obtenidos a un tipo de dato **number**, para este caso utilizamos `parseFloat`.
+
+```jsx
+...
+  <MapView
+  initialRegion={{
+      latitude: parseFloat(data.latitude),
+      longitude: parseFloat(data.longitude),
+      longitudeDelta: 0.04,
+      latitudeDelta: 0.02,
+    }}
+  />
+...
+
+```
+
+## Resumen
+
+En esta primera parte hemos visto el setup básico para agregar un mapa a nuestra aplicación, establecer la ubicación inicial y como solucionar un problema de Android.
+
+En la parte 2 veremos como cambiar la región del mapa, como incluir un marcador y agregar nuestra apiKey de Google Maps.
+
+Gracias por leer, que tengas un día maravilloso! 🌞
+
+[^1]: [React native MapView: what is latitudeDelta longitudeDelta](https://stackoverflow.com/questions/50882700/react-native-mapview-what-is-latitudedelta-longitudedelta)
