@@ -10,8 +10,6 @@ import rehypeSlug from 'rehype-slug';
 import rehypeCodeTitles from 'rehype-code-titles';
 
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
 
 const root = process.cwd();
 
@@ -62,10 +60,6 @@ export async function getPostFromSlug(slug: string): Promise<Post> {
 
   const mdxSource = await serialize(content, {
     mdxOptions: {
-      remarkPlugins: [
-        remarkGfm,
-        [remarkRehype, { footnoteLabel: 'Notas', footnoteLabelTagName: 'h4' }],
-      ],
       rehypePlugins: [
         rehypeSlug,
         rehypeCodeTitles,
