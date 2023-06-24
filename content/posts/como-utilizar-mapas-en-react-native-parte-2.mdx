@@ -1,0 +1,204 @@
+---
+title: 'Cómo utilizar mapas en React Native - Parte 2'
+description: 'En esta segunda parte, veremos cómo cambiar la región del mapa, cómo agregar un marcador al mapa y agregaremos la API Key de Google Maps al proyecto.'
+publishedAt: '2023-06-23'
+type: 'article'
+tags:
+  - 'React Native'
+---
+
+En este tutorial, descubriremos cómo obtener la region actual del mapa cuando el usuario se desplaza a través de él y cómo agregar un marcador al mapa. Además, agregaremos la API Key de Google Maps a nuestro proyecto.
+
+Puedes encontrar el código fuente completo en el siguiente repositorio de GitHub: [tutorial-react-native-maps](https://github.com/miguelquispe/tutorial-react-native-maps)
+
+¡Comencemos!
+
+## Obtener región del mapa
+
+Primero, vamos a definir un estado llamado `currentRegion` utilizando el hook `useState` y asignaremos un valor inicial. A continuación, crearemos la función `handleRegionChangeComplete` que recibirá como parámetro la región actual del mapa y la asignará al estado `currentRegion`.
+
+```jsx:screens/Map.js {1,5,7-9}
+import { useState } from "react";
+// imports ...
+
+export default function MapScreen() {
+  const [currentRegion, setCurrentRegion] = useState(initialRegion);
+
+  const handleRegionChangeComplete = (region) => {
+    setCurrentRegion(region);
+  };
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={initialRegion}
+      />
+    </View>
+  );
+}
+
+// styles ...
+```
+
+Luego, agregamos la propiedad callback `onRegionChangeComplete` al componente `<MapView />` y le pasamos la función `handleRegionChangeComplete`. De esta manera, nuestra función se ejecutará automáticamente cuando el usuario termine de mover el mapa.
+
+```jsx:screens/Map.js {7}
+// Resto del código del componente
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={initialRegion}
+        onRegionChangeComplete={handleRegionChangeComplete}
+      />
+    </View>
+  );
+// ...
+```
+
+![Vista previa Mapa](/images/posts/como-utilizar-mapas-en-react-native/region.gif)
+
+## Agregar marcador al mapa
+
+Debemos importar el componente `Marker` desde **react-native-maps** y luego agregarlo como hijo del componente `<MapView />`. Aquí utilizaremos nuestra estado `currentRegión` como valor de la propiedad `coordinate` para ubicar el marcador en el mapa.
+
+```jsx:screens/Map.js {1,15}
+// imports ...
+import MapView, { Marker } from "react-native-maps";
+
+export default function MapScreen() {
+  // Resto del código del componente
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={initialRegion}
+        onRegionChangeComplete={handleRegionChangeComplete}
+      >
+       <Marker
+          coordinate={currentRegion}
+        />
+      </MapView>
+    </View>
+  );
+}
+```
+
+También podrás personalizar el componente `Marker` cambiando su color con la propiedad `pinColor`, agregar un título con la propiedad `title` o incluir una imagen como ícono con la propiedad `image`. Puedes encontrar más detalles y propiedades en la [API del componente.](https://github.com/react-native-maps/react-native-maps/blob/master/docs/marker.md)
+
+```jsx:screens/Map.jsx {3-5}
+<Marker
+  coordinate={currentRegion}
+  pinColor="purple"
+  title="Lima, Perú"
+  image={require("../assets/shop-store-icon-2.png")}
+  />
+```
+
+<PostImage
+  src="/images/posts/como-utilizar-mapas-en-react-native/map-marker-title.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Image de mapa con marcador y título"
+/>
+
+<PostImage
+  src="/images/posts/como-utilizar-mapas-en-react-native/map-icon.png"
+  layout="responsive"
+  width={800}
+  height={420}
+  objectFit="cover"
+  alt="Image de mapa con icono y título"
+/>
+
+## Agregar API Key de Google Maps
+
+En caso de que desees utilizar la API de Google Maps para tu aplicación en iOS y Android, deberás realizar una modificación en el archivo `app.json`. Dentro de la sección `android`, añadiremos la propiedad `config.googleMaps.apiKey` para establecer el valor de la API key.
+
+```json:app.json {23-27}
+{
+  "expo": {
+    "name": "tutorial-react-native-maps",
+    "slug": "tutorial-react-native-maps",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "insertar API Key aquí"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
+```
+
+Después, debes importar la constante `PROVIDER_GOOGLE` desde el paquete **react-native-maps** y asignarla como valor de la propiedad `provider` en el componente `<MapView />`.
+
+```jsx:screens/Map.js {2,9}
+// imports ...
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+
+    // Resto del código del componente
+    <MapView
+      style={styles.map}
+      initialRegion={initialRegion}
+      onRegionChangeComplete={handleRegionChangeComplete}
+      provider={PROVIDER_GOOGLE}
+    >
+      <Marker
+        coordinate={currentRegion}
+      />
+    </MapView>
+
+```
+
+Para evitar mostrar tu API Key en el archivo `app.json`, te sugiero revisar el artículo [Usar variables de entorno con Expo - React Native](/blog/variables-de-entorno-expo-react-native). En dicho artículo, se explica como hacerlo a traves del archivo `app.config.js` y el paquete [dotenv](https://www.npmjs.com/package/dotenv).
+
+Aquí te muestro cómo podría ser el contenido del archivo `app.config.js` utilizando variables de entorno con el API Key de Google Maps:
+
+```js:app.config.js
+import "dotenv/config";
+
+export default ({ config }) => ({
+  config: {
+    ...config,
+    android: {
+      ...config.android,
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY,
+        },
+      },
+    },
+  },
+});
+```
+
+## Conclusión
+
+En la [primera parte](/blog/como-utilizar-mapas-en-react-native-expo-parte-1) de este tutorial, aprendimos como integrar mapas en nuestras aplicaciones de React Native utilizando el paquete [react-native-maps](https://github.com/react-native-maps/react-native-maps/). En esta segunda parte, exploramos el componente `Marker` con sus propiedades y conocimos otras propiedades del componente `MapView`. Además, aprendimos cómo definir nuestra API Key de Google Maps en el proyecto y cómo configurar el uso de Google Maps para iOS y Android mediante la propiedad `provider`.
+
+Gracias por leer, que tengas un día maravilloso! 🌞
