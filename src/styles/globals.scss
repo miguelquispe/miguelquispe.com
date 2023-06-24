@@ -1,6 +1,6 @@
-@import "styles/settings/__settings";
+@import 'styles/settings/__settings';
 
-@import "base";
+@import 'base';
 
 .container {
   max-width: 880px;
@@ -29,8 +29,8 @@
 }
 
 // Components
-@import "components/post";
-@import "components/prism";
+@import 'components/post';
+@import 'components/prism';
 
 // Utils
 .u-wrap {
@@ -47,4 +47,11 @@
 
 .u-mb-10 {
   margin-bottom: 2.5rem; //40px
+}
+
+code:not(.code-highlight) {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #eee;
+  color: $color-purple-400;
 }
