@@ -4,6 +4,7 @@ import Container from '@components/Container';
 import { getAllPosts } from 'utils/posts';
 import { PostItem, PostMeta } from '@components/Post';
 import Image from 'next/image';
+import SocialLinks from '@components/Social';
 
 export default function Home({ posts }: { posts: PostMeta[] }) {
   return (
@@ -16,6 +17,8 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
             Soy desarrollador Frontend - Mobile que disfruta de aprender,
             compartir conocimientos y viajar.
           </h2>
+
+          <SocialLinks />
         </div>
         <Image
           src="/images/hero-background.png"
