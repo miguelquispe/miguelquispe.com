@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const SEO = ({ customMeta }: { customMeta?: Partial<PostMeta> }) => {
   const router = useRouter();
   const meta = {
-    title: 'Miguel Quispe',
+    title: 'Miguel Quispe | Desarrollo Frontend y Mobile: React - React Native',
     description:
       'Comparto artículos y tutoriales de lo que aprendo: Frontend, React, React Native, JavaScript y más...',
     image: '/images/cover-share-page.png',
