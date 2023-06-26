@@ -39,6 +39,14 @@ export default function Footer() {
             >
               Twitter
             </a>
+
+            <a
+              href="mailto:hello@miguelquispe.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Contacto
+            </a>
           </nav>
         </div>
       </Container>
