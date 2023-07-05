@@ -1,0 +1,169 @@
+---
+title: 'Sombras en React Native: text-shadow y box-shadow'
+description: 'Aprende como agregar sombras a textos y contenedores en React Native.'
+publishedAt: '2023-07-04'
+type: 'article'
+tags:
+  - 'React Native'
+image: '/images/posts/sombras-react-native-text-shadow-box-shadow/imagen-03.png'
+---
+
+En este tutorial, aprenderás como agregar sombras a textos y contenedores en React Native, así como la forma en que se visualizan en dispositivos iOS y Android.
+
+Comenzaremos con un componente que contendrá textos, un contenedor y algunos estilos predefinidos. A partir de aquí, procederemos a añadir las sombras.
+
+<PostImage
+  src="/images/posts/sombras-react-native-text-shadow-box-shadow/imagen-01.png"
+  layout="responsive"
+  width={800}
+  height={420}
+  objectFit="cover"
+  alt="Vista previa componente en iOS y Android"
+/>
+
+A continuación, se muestra el código base del componente llamado `Shadows.js`:
+
+```jsx:Shadows.js
+import { StyleSheet, Text, View } from "react-native";
+
+const Shadows = () => {
+  return (
+    <View style={styles.box}>
+      <Text style={styles.title}>
+        Sombras React Native
+      </Text>
+      <Text style={styles.subtitle}>Tutorial</Text>
+    </View>
+  );
+};
+
+export default Shadows;
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 32,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#BF8DFF",
+    textTransform: "uppercase",
+  },
+  subtitle: {
+    fontSize: 24,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  box: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    width: 200,
+    height: 200,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderBottomEndRadius: 20,
+    justifyContent: "center",
+  },
+});
+```
+
+## text-shadow
+
+Para agregar sombra a los textos, crearemos los estilos `textShadow100` y `textShadow200` dentro del objeto `styles`. Utilizaremos las siguientes propiedades:
+
+- `textShadowColor`: Color de la sombra
+- `textShadowOffset`: Tamaño de la sombra definido por un objeto con las propiedades `width` y `height`
+- `textShadowRadius`: Radio de la sombra
+
+```jsx:Shadows.js
+const styles = StyleSheet.create({
+  // ... Código anterior omitido por brevedad
+  textShadow100: {
+    textShadowColor: "#7100FF",
+    textShadowOffset: { width: 0, height: 3 },
+    textShadowRadius: 1,
+  },
+  textShadow200: {
+    color: "#739AFF",
+    textShadowColor: "#0044AA",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
+  },
+});
+```
+
+Si estás familiarizado con CSS, notarás cierta similitud con la propiedad `text-shadow`.
+
+```css
+.textShadow100 {
+  /* color | offset-x | offset-y | blur-radius */
+  text-shadow: #7100ff 0 3px 1px;
+}
+```
+
+Ahora aplicaremos los estilos a los textos. Los agregaremos como un arreglo de estilos. De esta forma, podrás reutilizar las sombras en otros textos.
+
+```diff-jsx:Shadows.js
+-  <Text style={styles.title}>
++  <Text style={[styles.title, styles.textShadow100]}>
+
+-  <Text style={styles.subtitle}>Tutorial</Text>
++  <Text style={[styles.subtitle, styles.textShadow200]}>Tutorial</Text>
+```
+
+Este es el resultado que obtendremos:
+
+<PostImage
+  src="/images/posts/sombras-react-native-text-shadow-box-shadow/imagen-02.png"
+  layout="responsive"
+  width={800}
+  height={420}
+  objectFit="cover"
+  alt="Texto con sombras en iOS y Android"
+/>
+
+## box-shadow
+
+Definimos un nuevo estilo llamado `boxShadow` y agregaremos sombras al contenedor utilizando las siguientes propiedades:
+
+- `shadowColor`: Color de la sombra [Android - iOS]
+- `shadowOffset`: Tamaño de la sombra definido por un objeto con las propiedades `width` y `height` [iOS]
+- `shadowOpacity`: Opacidad de la sombra [iOS]
+- `shadowRadius`: Radio de la sombra [iOS]
+- `elevation`: Agrega sombra en Android [Android]
+
+```jsx: Shadows.js
+const styles = StyleSheet.create({
+  // ... Código anterior omitido por brevedad
+  boxShadow: {
+    shadowColor: "purple",
+    shadowOffset: {
+      width: 6,
+      height: 6,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 16, // Android
+  },
+});
+```
+
+Agregamos el estilo al contenedor de la misma manera que lo hicimos con los textos.
+
+```diff-jsx:Shadows.js
+-  <View style={styles.box}>
++  <View style={[styles.box, styles.boxShadow]}>
+```
+
+En el resultado, podrás observar que la sombra se ve diferente en Android e iOS, esto es porque cada plataforma maneja las sombras de forma distinta.
+
+<PostImage
+  src="/images/posts/sombras-react-native-text-shadow-box-shadow/imagen-03.png"
+  layout="responsive"
+  width={800}
+  height={420}
+  objectFit="cover"
+  alt="Texto y contenedor con sombras en iOS y Android"
+/>
+
+## Conclusión
+
+Agregar sombras a elementos en React Native, ya sea en textos o contenedores, es un proceso sencillo. Sin embargo, es importante tener en cuenta como cada plataforma (Android - iOS) implementa las sombras. Recuerda comunicarte con tu equipo de diseño UI para acordar como se visualizarán las sombras en tu aplicación.
