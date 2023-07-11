@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://miguelquispe.com
+
+# Sitemaps
+Sitemap: https://miguelquispe.com/sitemap.xml
