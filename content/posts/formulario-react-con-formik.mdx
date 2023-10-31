@@ -1,0 +1,687 @@
+---
+title: 'Formulario en React con Formik'
+description: 'En este tutorial vamos a integrar un formulario en React utilizando Formik.'
+publishedAt: '2023-10-31'
+type: 'article'
+tags:
+  - 'React'
+---
+
+En este tutorial vamos a integrar un formulario en React donde mostraremos mensajes de error cuando los campos no cumplan con las validaciones, un estado de loading cuando se haga submit y un mensaje de éxito cuando el formulario se envíe correctamente.
+
+Para ello vamos a utilizar la librería [Formik](https://formik.org/) que nos permite manejar el estado de los formularios en React.
+
+![Vista previa formulario](/images/posts/formulario-react-formik/form.gif)
+
+## Estilos de componentes
+
+Para los estilos de los componentes vamos a utilizar el framework CSS [Bulma](https://bulma.io/). Para instalarlo vamos a utilizar el CDN de Bulma y lo agregamos al archivo `index.html` dentro de la etiqueta `<head>`.
+
+```html:public/index.html
+<head>
+  <!-- ... -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+  />
+</head>
+```
+
+## Código base
+
+Para iniciar creamos el componente `FormQuote.jsx` donde agregaremos el siguiente código:
+
+```jsx:components/FormQuote.jsx
+export const FormQuote = () => {
+  return (
+    <form action="">
+      <div className="notification is-success is-light">
+        <strong>¡Gracias por enviar tu solicitud!</strong> Nuestro
+        equipo se pondrá en contacto contigo pronto con tu cotización
+        personalizada.
+      </div>
+      <p className="is-4 has-text-grey has-text-weight-bold">
+        Información de contacto
+      </p>
+      <hr className="mt-2" />
+      <div className="columns">
+        <div className="column">
+          <div className="field">
+            <label htmlFor="name" className="label">
+              Nombre
+            </label>
+            <div className="control">
+              <input
+                id="name"
+                type="text"
+                name="name"
+                className="input"
+              />
+            </div>
+            <p className="help is-danger">Debe ingresar su nombre.</p>
+          </div>
+        </div>
+        <div className="column">
+          <div className="field">
+            <label htmlFor="email" className="label">
+              Correo
+            </label>
+            <div className="control">
+              <input
+                id="email"
+                type="text"
+                name="email"
+                className="input"
+              />
+            </div>
+            <p className="help is-danger">Debe ingresar un correo.</p>
+          </div>
+        </div>
+      </div>
+
+      <p className="is-4 has-text-grey has-text-weight-bold mb-0 mt-5">
+        Información adicional
+      </p>
+      <hr className="mt-2" />
+      <div className="columns">
+        <div className="column">
+          <div className="field">
+            <label htmlFor="quantity" className="label">
+              Cantidad
+            </label>
+            <div className="control">
+              <input
+                id="quantity"
+                type="number"
+                name="quantity"
+                className="input"
+              />
+            </div>
+            <p className="help is-danger">
+              Debe especificar la cantidad.
+            </p>
+          </div>
+        </div>
+        <div className="column">
+          <div className="field">
+            <label htmlFor="deliveryType" className="label">
+              Tipo de entrega
+            </label>
+            <div className="select">
+              <select id="deliveryType" name="deliveryType">
+                <option value="">Seleccionar</option>
+                <option value="delivery">Delivery</option>
+                <option value="pickup">Recojo en tienda</option>
+              </select>
+            </div>
+            <p className="help is-danger">
+              Debe elegir un tipo de entrega.
+            </p>
+          </div>
+        </div>
+      </div>
+      <hr className="mt-2" />
+      <label className="checkbox">
+        <input type="checkbox" name="tyc" /> Acepto los términos y
+        condiciones
+        <p className="help is-danger">
+          Debe aceptar los términos y condiciones.
+        </p>
+      </label>
+      <div className="mt-4 is-flex is-justify-content-flex-end">
+        <button className="button is-success" type="submit">
+          Enviar cotización
+        </button>
+      </div>
+    </form>
+  );
+};
+```
+
+![Vista previa formulario](/images/posts/formulario-react-formik/formquote.jpg)
+
+## Integración con Formik
+
+Procedemos a instalar Formik para importar los componentes `Formik` y `Form` en nuestro componente `FormQuote.jsx`.
+
+```bash
+npm install formik
+```
+
+Luego agregamos `Formik` como componente padre y definimos los valores iniciales del formulario con la propiedad `initialValues`, también pasamos una función a la propiedad `onSubmit`, está recibirá los `values` (datos de cada campo) y se ejecutará cuando se envíe el formulario (Líneas 5-24).
+
+Formik utiliza el patrón [render props](https://www.patterns.dev/posts/render-props-pattern) para pasar los valores del formulario a los componentes hijos, por esta razón debemos pasar una función como children del componente `<Formik>` (Líneas 17, 23).
+
+Reemplazamos la etiqueta `<form>` por el componente `<Form>` (Líneas 19, 22).
+
+```diff-jsx:components/FormQuote.jsx showLineNumbers {1,5-18,24-25}
+import { Formik, Form } from 'formik';
+
+export const FormQuote = () => {
+  return (
+    <Formik
+      initialValues={{
+        name: '',
+        email: '',
+        quantity: '',
+        deliveryType: '',
+        tyc: false,
+      }}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    >
+      {(formikProps) =>
+-     <form action="">
++     <Form>
+        {/* ... Código anterior omitido por brevedad */}
+-     </form>
++     </Form>
+      }
+    </Formik>
+  );
+};
+```
+
+El componente `Form` es similar a la etiqueta `form` con la diferencia que se conecta directamente con Formik.
+
+```jsx
+// Esto...
+<Form />
+
+// es equivalente a esto...
+<form onReset={formikProps.handleReset} onSubmit={formikProps.handleSubmit} {...props} />
+```
+
+## Conectar campos del formulario con Formik
+
+Primero haremos un destructuring de `formikProps` para obtener los `values`, el evento `handleChange` y `handleBlur`, que utilizaremos con los campos de tipo: input, select, checkbox, etc.
+
+```diff-jsx:components/FormQuote.jsx
+- {(formikProps) => (
++ {({values, handleChange, handleBlur}) => (
+    <Form>
+    {/* ... */}
+    </Form>
+  )}
+```
+
+Ahora modificamos cada campo del formulario para conectarlo con Formik, para ello agregamos la propiedad `value` con su valor equivalente en el objeto `values`, la propiedad `onChange` con el evento `handleChange` y la propiedad `onBlur` con el evento `handleBlur`.
+
+```diff-jsx:components/FormQuote.jsx {7-9,16-18,25-27,33-35,43-45} showLineNumbers
+  {({values, handleChange, handleBlur}) => (
+    <Form>
+    {/* ... */}
+    <div className="control">
+      <input
+        id="name" type="text" name="name" className="input"
+        value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+       />
+    </div>
+
+    <div className="control">
+      <input
+        id="email" type="email" name="email" className="input"
+        value={values.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+       />
+    </div>
+
+    <div className="control">
+      <input
+        id="quantity" type="number" name="quantity" className="input"
+        value={values.quantity}
+        onChange={handleChange}
+        onBlur={handleBlur}
+       />
+    </div>
+
+    <div className="control">
+      <select name="deliveryType" id="deliveryType"
+        value={values.deliveryType}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      >
+        {/* ... */}
+      </select>
+    </div>
+
+     <label className="checkbox">
+        <input type="checkbox" name="tyc"
+          checked={values.tyc}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />{" "} Acepto los términos y condiciones
+      </label>
+    {/* ... */}
+    </Form>
+  )}
+```
+
+Otra forma de conectar los campos con Formik es utilizando el componente `<Field />`.
+
+```jsx:components/FormQuote.jsx {1, 12,16-19}
+import { Formik, Form, Field } from 'formik';
+
+export const FormQuote = () => {
+  return (
+    <Formik
+    ...
+    >
+      {({values}) => (
+        <Form>
+        {/* ... */}
+        <div className="control">
+          <Field id="name" name="name" type="input" className="input" />
+        </div>
+
+        <div className="control">
+          <Field id="deliveryType" name="deliveryType" as="select">
+            <option value="">Seleccionar</option>
+            {/* ... */}
+          </Field>
+        </div>
+        {/* ... */}
+        </Form>
+      )}
+    <Formik>
+  )
+}
+```
+
+## Validación de campos
+
+Para validar los campos del formulario debemos agregar la propiedad `validate` a `Formik` y pasar una función que reciba los `values` y retorne un objeto con los errores.
+
+En este ejemplo validaremos que los campos no estén vacíos.
+
+```diff-jsx:components/FormQuote.jsx {3,4, 20}
+  <Formik
+    ...
+    validate={(values) => {
+      const errors = {};
+      if (!values.name) {
+        errors.name = 'El campo nombre es requerido.';
+      }
+      if (!values.email) {
+        errors.email = 'El campo correo es requerido.';
+      }
+      if (!values.quantity) {
+        errors.quantity = 'El campo cantidad es requerido.';
+      }
+      if (!values.deliveryType) {
+        errors.deliveryType = 'El campo tipo de entrega es requerido.';
+      }
+      if (!values.tyc) {
+        errors.tyc = 'Debe aceptar términos y condiciones';
+      }
+      return errors;
+    }}
+    ...
+  >
+  {/* ...*/}
+  </Formik>
+```
+
+## Mensajes de Error
+
+Volvemos a hacer un destructuring de `formikProps` para obtener el objeto `errors` y `touched`. Luego agregamos una condicional para validar si el campo se encuentra registrado dentro estos objetos y mostrar el mensaje de error.
+
+```diff-jsx:components/FormQuote.jsx {2,12-14}
+  <Formik ... >
+  {({values, handleChange, handleBlur, errors, touched}) => (
+    <Form>
+    {/* ... */}
+    <div className="control">
+      <input
+        id="name" type="text" name="name" className="input"
+        value={values.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+       />
+       {touched.name && errors.name && (
+          <p className="help is-danger">{errors.name}</p>
+        )}
+    </div>
+    {/* ... */}
+    </Form>
+  )}
+  </Formik>
+```
+
+El objeto `touched` se actualiza cada vez que se realiza un evento `blur` en un campo, esto nos permite mostrar el mensaje de error para cada campo de forma individual.
+
+Si no validamos con `touched`, entonces al momento de ejecutar un evento `blur` en algún campo, se mostrarán los mensajes de error de otros campos que estén vacíos.
+
+![Vista previa mensaje de error](/images/posts/formulario-react-formik/mensaje-error.jpg)
+
+## Validación con Yup
+
+Otra forma de validar los campos es utilizando la librería [Yup](https://github.com/jquense/yup) que permite realizar validaciones más complejas.
+
+```bash
+npm install yup
+```
+
+Importamos `Yup` en nuestro componente `FormQuote.jsx` y creamos el esquema `FormQuoteSchema` con el siguiente código:
+
+```jsx:components/FormQuote.jsx {1, 4-10}
+import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+
+const FormQuoteSchema = yup.object().shape({
+  name: yup.string().required("Debe ingresar su nombre."),
+  email: yup.string().email("Ingrese un correo valido.").required("Debe ingresar un correo."),
+  quantity: yup.number().moreThan(0).required("Debe especificar la cantidad."),
+  deliveryType: yup.string().required("Debe elegir un tipo de entrega"),
+  tyc: yup.boolean().oneOf([true], "Debe aceptar los términos y condiciones."),
+});
+```
+
+Ahora, retiramos la propiedad `validate` y agregamos la propiedad `validationSchema` a `Formik` donde pasaremos el esquema creado.
+
+```diff-jsx:components/FormQuote.jsx
+import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+
+const FormQuoteSchema = yup.object().shape({...})
+
+export const FormQuote = () => {
+  return (
+    <Formik
+      initialValues={...}
+-     validate={(values) => ... }
++     validationSchema={FormQuoteSchema}
+    >
+      {/* ...*/}
+    </Formik>
+  )
+}
+```
+
+## Envío del formulario (Submit)
+
+Ha llegado el momento de enviar los datos del formulario.
+
+Pero antes, agregaremos un estado `loading` al botón `Enviar` para indicar que el formulario esta ejecutando el `submit`.
+
+Para lograr esto, obtenemos la propiedad `isSubmitting` de `formikProps` y la utilizamos para hacer agregar la clase css `is-loading` al botón `Enviar`.
+
+```diff-jsx:components/FormQuote.jsx
+<Formik>
+  {({values, handleChange, handleBlur, errors, touched, isSubmitting}) => (
+    <Form>
+    {/* ... */}
+    <button
+-     className="button is-success is-loading" type="submit">
++     className={`button is-success ${isSubmitting ? "is-loading" : ""}`.trim()}
+    >
+      Enviar cotización
+    </button>
+    {/* ... */}
+    </Form>
+  )}
+<Formik>
+```
+
+## Mensaje de Éxito
+
+Ahora vamos a mostrar un mensaje y hacer un `reset` de los campos cuando el formulario se haya enviado correctamente.
+
+En primer lugar, comenzamos agregando un estado `success` con el hook `useState` y lo inicializamos en `false` (Línea 4).
+
+Luego, integramos la propiedad `onSubmit` en el componente `Formik`, pasando una función que recibe los `values` y `formikProps`. Aquí simulamos el envío del formulario con un `setTimeout` de 3 segundos.Dentro de este lapso, actualizamos el estado `success` a `true` y hacemos un `reset` de los campos utilizando `formikProps.resetForm()` (Líneas 9-14).
+
+Para finalizar, aplicamos una condición para mostrar el mensaje de éxito unicamente cuando el estado `success` es `true` (Líneas 18-23).
+
+```jsx:components/FormQuote.jsx {4,9-14,18-23} showLineNumbers
+import { Formik, Form } from 'formik';
+
+export const FormQuote = () => {
+  const [success, setSuccess] = useState(false);
+
+  return (
+    <Formik
+    ...
+    onSubmit={(values, formikProps) => {
+      setTimeout(() => {
+        setSuccess(true);
+        formikProps.resetForm();
+      }, 3000);
+    }}
+    >
+      {({values, handleChange, handleBlur, errors, touched, isSubmitting}) => (
+        <Form>
+          {success && (
+            <div className="notification is-success is-light">
+              <strong>¡Gracias por enviar tu solicitud!</strong> Nuestro equipo se pondrá
+              en contacto contigo pronto con tu cotización personalizada.
+            </div>
+          )}
+        {/* ... */}
+        </Form>
+      )}
+    <Formik>
+  )
+}
+```
+
+![Vista previa formulario](/images/posts/formulario-react-formik/form.gif)
+
+## Código completo
+
+Aquí te dejo el código completo del componente `FormQuote.jsx` y como se integra dentro del archivo `App.jsx`.
+
+```jsx:components/FormQuote.jsx
+import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+
+const FormQuoteSchema = yup.object().shape({
+  name: yup.string().required("Debe ingresar su nombre."),
+  email: yup.string().email("Ingrese un correo valido.").required("Debe ingresar un correo."),
+  quantity: yup.number().moreThan(0).required("Debe especificar la cantidad."),
+  deliveryType: yup.string().required("Debe elegir un tipo de entrega"),
+  tyc: yup.boolean().oneOf([true], "Debe aceptar los términos y condiciones."),
+});
+
+export const FormQuote = () => {
+  return (
+    <Formik
+      initialValues={{
+        name: '',
+        email: '',
+        quantity: '',
+        deliveryType: '',
+        tyc: false,
+      }}
+      validationSchema={FormQuoteSchema}
+      onSubmit={(values, formikProps) => {
+        setTimeout(() => {
+          console.log(values);
+          setSuccess(true);
+          formikProps.resetForm();
+        }, 3000);
+      }}
+    >
+      {({values, handleChange, handleBlur, errors, touched, isSubmitting}) (
+        <Form>
+          {success && (
+            <div className="notification is-success is-light">
+              <strong>¡Gracias por enviar tu solicitud!</strong> Nuestro equipo
+              se pondrá en contacto contigo pronto con tu cotización
+              personalizada.
+            </div>
+          )}
+          <p className="is-4 has-text-grey has-text-weight-bold">
+            Información de contacto
+          </p>
+          <hr className="mt-2" />
+
+          <div className="columns">
+            <div className="column">
+              <div className="field">
+                <label htmlFor="name" className="label">
+                  Nombre
+                </label>
+                <div className="control">
+                  <Field id="name" name="name" type="input" className="input" />
+                  {/* <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    className="input"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  /> */}
+
+                </div>
+                {touched.name && errors.name && (
+                  <p className="help is-danger">{errors.name}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="column">
+              <div className="field">
+                <label htmlFor="email" className="label">
+                  Correo
+                </label>
+                <div className="control">
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    className="input"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                {touched.email && errors.email && (
+                  <p className="help is-danger">{errors.email}</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <p className="is-4 has-text-grey has-text-weight-bold mb-0 mt-5">
+            Información adicional
+          </p>
+          <hr className="mt-2" />
+          <div className="columns">
+            <div className="column">
+              <div className="field">
+                <label htmlFor="quantity" className="label">
+                  Cantidad de productos
+                </label>
+                <div className="control">
+                  <input
+                    id="quantity"
+                    type="number"
+                    name="quantity"
+                    className="input"
+                    value={values.quantity}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                {touched.quantity && errors.quantity && (
+                  <p className="help is-danger">{errors.quantity}</p>
+                )}
+              </div>
+            </div>
+            <div className="column">
+              <div className="field">
+                <label htmlFor="deliveryType" className="label">
+                  Tipo de entrega
+                </label>
+                <div className="select">
+                  <Field id="deliveryType" name="deliveryType" as="select">
+                    <option value="">Seleccionar</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="pickup">Recojo en tienda</option>
+                  </Field>
+                  {/* <select
+                    id="deliveryType"
+                    value={values.deliveryType}
+                    name="deliveryType"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <option value="">Seleccionar</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="pickup">Recojo en tienda</option>
+                  </select> */}
+                </div>
+                {touched.deliveryType && errors.deliveryType && (
+                  <p className="help is-danger">{errors.deliveryType}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <hr className="mt-2" />
+
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              name="tyc"
+              checked={values.tyc}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />{" "}
+            Acepto los términos y condiciones
+            {touched.tyc && errors.tyc && (
+              <p className="help is-danger">{errors.tyc}</p>
+            )}
+          </label>
+          <div className="mt-4 is-flex is-justify-content-flex-end">
+            <button
+              className={`button is-success ${isSubmitting ? "is-loading" : ""}`.trim()}
+              type="submit"
+            >
+              Enviar cotización
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+```
+
+```jsx:App.jsx {1,19}
+import { FormQuote } from "./components/FormQuote.jsx";
+
+function App() {
+  return (
+    <>
+      <h1 className="title has-text-success has-text-centered">
+        Formulario React + Formik
+      </h1>
+      <div className="container" style={{ width: 600 }}>
+        <div className="columns">
+          <div className="column">
+            <div className="box">
+              <p className="title is-4">Cotizar producto</p>
+              <p className="subtitle is-6">
+                Obtén tu cotización personalizada en segundos.
+              </p>
+              {/* Form */}
+              <FormQuote />
+              {/* /Form */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default App;
+```
+
+¡Gracias por seguir este tutorial! Espero que haya sido útil para ti. Que tengas un día maravilloso! 🌞
