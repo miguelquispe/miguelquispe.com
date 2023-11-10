@@ -1,0 +1,143 @@
+---
+title: 'Efecto de texto degradado con CSS'
+description: 'Aprende a crear un texto degradado con CSS y mejora el aspecto visual de tus proyectos web.'
+publishedAt: '2023-11-10'
+type: 'article'
+tags:
+  - 'CSS'
+image: '/images/posts/css-text-gradient/preview.jpg'
+---
+
+En este tutorial, aprenderemos a incorporar un color degradado a nuestro texto mediante CSS. Con solo unos simples pasos mejoraremos el aspecto visual de nuestros proyectos web.
+
+![Vista texto con degradado](/images/posts/css-text-gradient/preview.jpg)
+
+## Paso 1: Agregar degradado
+
+Primero, agregamos la propiedad `background` y luego utilizamos el valor `linear-gradient` con nuestros colores deseados dentro de nuestra clase `.title`.
+
+En este ejemplo, empleo un degradado de tres colores, definiendo su dirección de izquierda a derecha.
+
+```css:style.css {3}
+.title {
+  font-size: 60px;
+  background: linear-gradient(to right, #fa4261, #f39762, #d5aa10);
+  background-size: cover;
+}
+```
+
+![Vista texto con fondo degradado](/images/posts/css-text-gradient/bg-gradient.jpg)
+
+## Paso 2: Enmascarar el degradado con el texto
+
+Ahora emplearemos dos propiedades css: [`background-clip`](https://developer.mozilla.org/es/docs/Web/CSS/background-clip) y [`-webkit-text-fill-color`](https://developer.mozilla.org/es/docs/Web/CSS/-webkit-text-fill-color).
+
+Con `background-clip: text` indicamos que el fondo se debe mostrar en el texto, y `-webkit-text-fill-color: transparent` removemos el color de relleno del texto.
+
+```css:style.css {5,6}
+.title {
+  font-size: 60px;
+  background: linear-gradient(to right, #fa4261, #f39762, #d5aa10);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+```
+
+De esta manera, ya hemos aplicado un degradado a nuestro texto.
+
+![Vista texto con degradado](/images/posts/css-text-gradient/text-gradient.jpg)
+
+## Plus: Agregar fuente (font) personalizada
+
+En este ejemplo, voy a utilizar la fuente [Great Vibes](https://fonts.google.com/specimen/Great+Vibes) de Google Fonts.
+
+Para lograrlo, añadimos la etiqueta `<link />` para vincular con Google Font, todo dentro del elemento `head` de nuestro archivo `index.html`.
+
+```html:index.html {5-8}
+<head>
+<!-- ... -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+    rel="stylesheet"
+  />
+</head>
+```
+
+Luego, asignamos la fuente **Great Vibes** como `font-family` de nuestro texto.
+
+```css:style.css {2,3}
+.title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 86px;
+  /* ... */
+}
+```
+
+Para finalizar, decoramos nuestro contenedor añadiendo una imagen de fondo.
+
+```css:style.css {5-7}
+/* ... */
+.hero {
+  height: 420px;
+  padding: 32px;
+  background-image: url("tulip.png");
+  background-repeat: no-repeat;
+  background-position: center 110px;
+}
+```
+
+## Soporte para navegadores
+
+Si quieres asegurarte que el efecto se muestre solo en navegadores que soporten esta característica, puedes usar la regla [`@supports`](https://developer.mozilla.org/es/docs/Web/CSS/@supports).
+
+`@supports` permite aplicar estilos solo si el navegador soporta una característica en específico.
+
+Además, podemos usar un color sólido como **fallback** (alternativa) para navegadores que no soporten el efecto.
+
+```css:style.css {3,6-16}
+.title {
+  font-size: 60px;
+  color: #fa4261;
+}
+
+@supports (
+  (-webkit-background-clip: text) or (-webkit-text-fill-color: transparent)
+) {
+  .title {
+    background: linear-gradient(to right, #fa4261, #f39762, #d5aa10);
+    background-size: contain;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+```
+
+## Demo
+
+Aquí puedes ver el resultado final:
+
+<iframe
+  scrolling="no"
+  title="CSS Text Gradient"
+  src="https://codepen.io/miquel/embed/WNPjNZr?default-tab=result"
+  style={{
+    width: '100%',
+    height: 400,
+  }}
+>
+  <a href="https://codepen.io/miquel/pen/WNPjNZr">CSS Text Gradient</a> by
+  Miguel Quispe (<a href="https://codepen.io/miquel">@miquel</a>) on
+  <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+## Conclusión
+
+En este tutorial, hemos aprendido a crear un texto degradado con CSS de una manera sencilla.
+Sin embargo, si buscas opciones más personalizadas, puedes valerte de herramientas prácticas como [CSS Gradient](https://cssgradient.io/) y [CSS Patterns](https://www.magicpattern.design/tools/css-backgrounds). Estas herramientas te ofrecen flexibilidad adicional para perfeccionar tus degradados de una manera simple.
+
+¡Gracias por seguir este tutorial! Espero que haya sido útil para ti. Que tengas
+un día maravilloso! 🌞
