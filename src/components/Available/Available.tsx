@@ -6,7 +6,7 @@ const Available = () => {
       <a
         href="mailto:dev@miguelquispe.com"
         // className="available-link"
-        className={styles.available}
+        className={`available-link ${styles.available}`}
         title="¡Disponible para proyectos!"
       >
         <span className={styles.available__dot} />
