@@ -33,6 +33,23 @@
 @import 'components/prism';
 @import 'components/social';
 
+// Layout
+.wrap-hero-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  align-items: flex-start;
+  gap: 1.4rem;
+}
+
+@media (min-width: 520px) {
+  .wrap-hero-icons {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 // Utils
 .u-wrap {
   padding: 2rem;

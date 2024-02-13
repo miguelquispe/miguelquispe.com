@@ -5,6 +5,7 @@ import { getAllPosts } from 'utils/posts';
 import { PostItem, PostMeta } from '@components/Post';
 import Image from 'next/image';
 import SocialLinks from '@components/Social';
+import Available from '@components/Available';
 
 export default function Home({ posts }: { posts: PostMeta[] }) {
   return (
@@ -18,7 +19,10 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
             compartir conocimientos y viajar.
           </h2>
 
-          <SocialLinks />
+          <div className="wrap-hero-icons">
+            <SocialLinks />
+            <Available />
+          </div>
         </div>
         <Image
           src="/images/hero-background.png"
