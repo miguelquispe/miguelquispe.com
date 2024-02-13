@@ -1,0 +1,164 @@
+---
+title: 'Componente Radio Button en React Native'
+description: 'En este artículo, te presento el componente Radio Button que desarrolle para una aplicación móvil utilizando React Native.'
+publishedAt: '2024-02-13'
+type: 'article'
+tags:
+  - 'React Native'
+---
+
+Recientemente, desarrollé la actualización 2.0 de mi app [NMS Sistema Solar](https://play.google.com/store/apps/details?id=com.nms.solarsystem) y una de las nuevas _features_ consistía en agregar una pantalla de "Configuración" con **opciones** de selección (Radio Buttons) para que el usuario pueda elegir entre dos voces para la aplicación.
+
+<PostImage
+  src="/images/posts/componente-radio-button-react-native/trello-card.png"
+  layout="responsive"
+  width={880}
+  height={420}
+  objectFit="cover"
+  alt="Card en Trello"
+/>
+
+Después de revisar la documentación de [React Native](https://reactnative.dev/docs/getting-started) y no encontrar un componente similar al Radio Button, busqué en los paquetes npm para acelerar el desarrollo. Sin embargo, al darme cuenta de que solo necesitaría radio buttons en una sola pantalla, opté por crear un componente propio.
+
+<PostImage
+  src="/images/posts/componente-radio-button-react-native/android-componente-radio-button.png"
+  layout="responsive"
+  width={880}
+  height={420}
+  objectFit="cover"
+  alt="Vista previa Radio Button React Native"
+/>
+
+## Código del componente Radio Button
+
+El código del componente es sencillo: utiliza `View`, `Text` y `StyleSheet` de React Native para el diseño de la interfaz de usuario (UI), junto con `Pressable` para gestionar la interacción.
+
+Estas son las propiedades que recibe el componente:
+
+- **value**: Valor que se enviará al presionar el radio button.
+- **label**: Texto que se mostrará al lado del radio button.
+- **description**: Texto que se mostrará debajo del label. (Opcional)
+- **selected**: Booleano que indica si el radio button está seleccionado.
+- **onPress**: Función que se ejecutará al presionar el radio button.
+
+```jsx:components/RadioButton.jsx
+import {View, Text, Pressable, StyleSheet} from "react-native";
+
+const RadioButton = ({value, label, description, selected, onPress}) => {
+  const handleOnPress = (value) => {
+    onPress(value);
+  };
+
+  return (
+    <Pressable onPress={() => handleOnPress(value)}>
+      <View style={styles.wrap}>
+        <Dot selected={selected} />
+        <View>
+          <Text style={styles.label}>{label}</Text>
+          {description && <Text style={styles.description}>{description}</Text>}
+        </View>
+      </View>
+    </Pressable>
+  );
+};
+
+// Componente Dot
+const Dot = ({ selected }) => {
+  return (
+    <View style={styles.radio}>
+      <View
+        style={{
+          ...styles.dot,
+          backgroundColor: selected ? "#982AEF" : "transparent",
+        }}
+      />
+    </View>
+  );
+};
+
+const styles =const styles = StyleSheet.create({
+  wrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+    gap: 10,
+  },
+  radio: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#982AEF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "transparent",
+  },
+  label: {
+    fontSize: 20,
+    color: "white",
+    fontFamily: NUNITO_EXTRA_BOLD, // APP-FONT
+  },
+  description: {
+    fontSize: 16,
+    color: "#EEE",
+    fontFamily: NUNITO_MEDIUM, // APP-FONT
+  },
+});
+
+export default RadioButton;
+```
+
+La creación independiente del componente `Dot` esta basada en preferencias personales, pero el código puede ser modificado según tus necesidades.
+
+## Uso del componente Radio Button
+
+Aquí puedes ver como se utiliza el componente dentro de una vista(screen). En este ejemplo, se emplea un estado(state) para almacenar la opción seleccionada, pero dependiendo del manejo del estado en tu aplicación, podrías utilizar _useContext_, _useSelector_ de redux, entre otras opciones disponibles.
+
+```jsx:screens/Settings.js
+import RadioButton from "../components/RadioButton";
+
+const SYSTEM_VOICE = "SYSTEM_VOICE";
+const NOAH_VOICE = "NOAH_VOICE";
+
+const SettingsScreen = () => {
+  const [voice, setVoice] = useState(NOAH_VOICE);
+
+  const handleSavePreferences = (option) => {
+    setVoice(option);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Seleccionar Voz</Text>
+      <Text style={styles.description}>
+        Elige el tipo de voz para la aplicación:
+      </Text>
+
+      <View style={styles.options}>
+        <RadioButton
+          value={SYSTEM_VOICE}
+          label={"Voz del sistema"}
+          selected={voice === SYSTEM_VOICE}
+          onPress={(value) => handleSavePreferences(value)}
+        />
+        <RadioButton
+          value={NOAH_VOICE}
+          label={"Voz de Noah"}
+          selected={voice === NOAH_VOICE}
+          onPress={(value) => handleSavePreferences(value)}
+          description={"Sólo para los 8 planetas"}
+        />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({...});
+
+export default SettingsScreen;
+```
