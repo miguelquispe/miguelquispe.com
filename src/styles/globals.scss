@@ -59,6 +59,12 @@
   display: flex;
 }
 
+@media (min-width: 1024px) {
+  .u-flex-md {
+    display: flex;
+  }
+}
+
 .u-flexJustifyBetween {
   justify-content: space-between;
 }
@@ -72,4 +78,8 @@ code:not(.code-highlight) {
   border-radius: 4px;
   background: #eee;
   color: $color-purple-400;
+}
+
+.gap-8 {
+  gap: 2rem;
 }

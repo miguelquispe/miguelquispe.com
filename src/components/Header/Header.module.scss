@@ -1,4 +1,4 @@
-@import "styles/settings/__settings";
+@import 'styles/settings/__settings';
 
 .main {
   padding: 2rem;
@@ -14,6 +14,7 @@
     height: 1.625rem;
   }
 }
+
 .menu {
   gap: 1rem;
 
@@ -23,6 +24,10 @@
     font-size: 1rem;
 
     &:hover {
+      color: $color-green;
+    }
+
+    &.active {
       color: $color-green;
     }
   }

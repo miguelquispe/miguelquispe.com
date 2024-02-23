@@ -1,9 +1,17 @@
 import React from 'react';
 
-const SocialLinks = () => {
+interface SocialLinksProps {
+  showContact?: boolean;
+}
+
+const SocialLinks = ({ showContact }: SocialLinksProps) => {
   return (
     <div className="social-links">
-      <a href="https://twitter.com/miguelquispecom" className="social-twitter">
+      <a
+        href="https://twitter.com/miguelquispecom"
+        className="social-twitter"
+        title="Sígueme en Twitter"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -20,6 +28,7 @@ const SocialLinks = () => {
       <a
         href="https://www.linkedin.com/in/quispemiguel/"
         className="social-linkedin"
+        title="Conéctate conmigo en LinkedIn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +44,11 @@ const SocialLinks = () => {
           <path d="M3 5.012H0V15h3V5.012Z" />
         </svg>
       </a>
-      <a href="https://github.com/miguelquispe" className="social-github">
+      <a
+        href="https://github.com/miguelquispe"
+        className="social-github"
+        title="GitHub"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -49,17 +62,23 @@ const SocialLinks = () => {
           />
         </svg>
       </a>
-      {/* <a href="mailto:hello@miguelquispe.com" className="social-contact">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          aria-hidden="true"
-          viewBox="0 0 20 16"
+      {showContact && (
+        <a
+          href="mailto:hola@miguelquispe.com"
+          className="social-contact"
+          title="Escríbeme por correo"
         >
-          <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-          <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-        </svg>
-      </a> */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            aria-hidden="true"
+            viewBox="0 0 20 16"
+          >
+            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+          </svg>
+        </a>
+      )}
     </div>
   );
 };
