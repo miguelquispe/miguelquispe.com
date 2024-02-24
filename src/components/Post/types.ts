@@ -22,3 +22,9 @@ export interface PostShareValues {
   summary: string | undefined;
   url: string;
 }
+
+export interface PostCodepenProps {
+  title: string;
+  src: string;
+  penId: string;
+}

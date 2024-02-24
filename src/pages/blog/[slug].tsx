@@ -4,12 +4,13 @@ import type { GetStaticPaths, GetStaticProps } from 'next';
 import { getFiles, getPostFromSlug } from 'utils/posts';
 
 import { Post, PostLink, PostShare } from '@components/Post';
-import { PostHeader, PostImage } from '@components/Post';
+import { PostHeader, PostImage, PostCodepen } from '@components/Post';
 import { MDXRemote } from 'next-mdx-remote';
 
 const components = {
   PostImage,
   a: PostLink,
+  PostCodepen,
 };
 
 export default function PostPage({
