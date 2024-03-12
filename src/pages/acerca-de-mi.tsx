@@ -8,9 +8,10 @@ export default function About() {
   return (
     <PageLayout
       seo={{
-        title: 'Acerca de mí - Miguel Quispe',
+        title:
+          'Acerca de mí - Miguel Quispe | Desarrollo Frontend y Mobile React Native',
         description:
-          'Desarrollador de software con experiencia en frontend y desarrollo de aplicaciones móviles utilizando React Native.',
+          'Desarrollador de software con experiencia en frontend y desarrollo de aplicaciones móviles utilizando React Native. Lima, Perú.',
       }}
     >
       <section className="u-wrap">

@@ -10,6 +10,10 @@ const links = [
     name: 'Conóceme',
     href: '/acerca-de-mi',
   },
+  {
+    name: 'Portfolio',
+    href: '/portfolio',
+  },
   { name: 'Blog', href: '/blog' },
 ];
 

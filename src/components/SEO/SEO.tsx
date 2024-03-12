@@ -7,7 +7,7 @@ const SEO = ({ customMeta }: { customMeta?: Partial<PostMeta> }) => {
   const meta = {
     title: 'Miguel Quispe | Desarrollo Frontend y Mobile: React - React Native',
     description:
-      'Comparto artículos y tutoriales de lo que aprendo: Frontend, React, React Native, JavaScript y más...',
+      'Comparto artículos y tutoriales sobre desarrollo de software: Frontend, React, React Native, JavaScript y más...',
     image: '/images/cover-share-page.png',
     type: 'website',
     ...customMeta,
