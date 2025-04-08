@@ -2,35 +2,9 @@
 
 @import 'base';
 
-.container {
-  max-width: 880px;
-  margin: 0 auto;
-  padding-left: 32px;
-  padding-right: 32px;
-}
-
-.container.is-lg {
-  max-width: 992px;
-}
-
-.flex {
-  display: flex;
-}
-
-.sb {
-  justify-content: space-between;
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
 // Components
 @import 'components/post';
-@import 'components/prism';
+// @import 'components/prism';
 @import 'components/social';
 
 // Layout

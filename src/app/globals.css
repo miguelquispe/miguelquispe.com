@@ -1,0 +1,92 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-gray-50: #f7f8fb;
+  --color-gray-100: #d8dae3;
+  --color-gray: #8c8f99;
+  --color-purple-400: #6845fa;
+  --color-purple-500: #3c1cf8;
+  --color-green: #50d588;
+  --color-blue-gray: #1a2844;
+  --font-inter: 'Inter', sans-serif;
+  --font-lexend: 'Lexend', sans-serif;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply m-0 font-medium;
+
+    a {
+      @apply text-blue-gray;
+    }
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  p,
+  ol,
+  ul {
+    @apply mb-4 leading-7;
+  }
+
+  ol,
+  ul {
+    @apply pl-6;
+  }
+
+  ul {
+    @apply list-disc list-outside;
+  }
+
+  li {
+    @apply leading-7;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    @apply text-purple-400 no-underline transition-transform ease-linear hover:text-purple-500 hover:-translate-y-1;
+    transition-duration: 250ms;
+  }
+}
+
+@layer components {
+  .hero-icons {
+    @apply mt-7 flex flex-col gap-4 md:flex-row md:items-center;
+  }
+  .social-links {
+    @apply flex space-x-6;
+    a {
+      @apply flex items-center text-white hover:text-green w-6 h-6;
+    }
+  }
+}
+
+code:not(.code-highlight) {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #eee;
+  color: var(--color-purple-400);
+}

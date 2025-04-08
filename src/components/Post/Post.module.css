@@ -1,20 +1,19 @@
-// @import 'styles/settings/_settings';
-
+@reference "../../app/globals.css";
 /* main */
 .main {
   @apply mb-10;
-}
 
-.main h3 {
-  @apply text-2xl font-inter font-semibold  mb-4;
-}
+  & h3 {
+    @apply text-2xl font-inter mb-4 font-semibold;
+  }
 
-.main a {
-  @apply text-blue-gray transition-colors;
-}
+  & a {
+    @apply text-[var(--color-blue-gray)] transition-colors;
 
-.main a:hover {
-  @apply text-purple-500;
+    &:hover {
+      @apply text-purple-500;
+    }
+  }
 }
 
 /* header */
@@ -29,17 +28,17 @@
 /* meta */
 .meta {
   @apply list-none m-0 p-0 flex flex-wrap;
+
+  & li {
+    @apply font-lexend text-gray inline-flex items-center;
+  }
 }
 
 .meta img {
   @apply mr-3 rounded-full;
 }
 
-.meta li {
-  @apply text-gray inline-flex items-center font-lexend;
-}
-
-.meta li:first-child {
+.meta .meta li:first-child {
   @apply gap-3;
 }
 

@@ -1,0 +1,32 @@
+@reference "../../app/globals.css";
+
+.main {
+  @apply p-8;
+}
+
+.brand {
+  width: 3.625rem;
+  height: 1.625rem;
+
+  & a {
+    display: block;
+    width: 3.625rem;
+    height: 1.625rem;
+  }
+}
+
+.menu {
+  @apply gap-4 md:gap-10;
+
+  & a {
+    @apply text-gray font-medium text-base transition-all;
+
+    &:hover {
+      @apply text-green;
+    }
+
+    &.active {
+      @apply text-green;
+    }
+  }
+}

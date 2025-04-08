@@ -1,20 +1,18 @@
 import Container from '@components/Container/Container';
 import Link from 'next/link';
-import styles from './Footer.module.scss';
+import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
       <Container>
         <hr />
-        <div className="u-flex u-flexJustifyBetween">
+        <div className="flex justify-between flex-col gap-6 md:flex-row">
           <p className={styles.copyright}>
             Miguel Quispe {`© ${new Date().getFullYear()}`}
           </p>
-          <nav className="u-flex">
-            <Link href="/">
-              <a>Inicio</a>
-            </Link>
+          <nav className="flex">
+            <Link href="/">Inicio</Link>
 
             <a
               href="https://www.linkedin.com/in/quispemiguel/"

@@ -15,7 +15,7 @@ export default function About() {
     >
       <section className="u-wrap">
         <Container small>
-          <h1 className="h1 font-primary u-mb-10">Portfolio</h1>
+          <h1 className="h1 font-inter u-mb-10">Portfolio</h1>
           <div className={styles['project-grid']}>
             {PROJECTS.map((project, index) => (
               <div

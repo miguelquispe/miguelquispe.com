@@ -9,7 +9,7 @@ import Available from '@components/Available';
 
 export default function Home({ posts }: { posts: PostMeta[] }) {
   return (
-    <PageLayout>
+    <>
       <section className={styles.hero}>
         <div className={styles['hero-body']}>
           <p className="font-secondary greeting">¡Hola 👋, mucho gusto!</p>
@@ -45,7 +45,7 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
           ))}
         </Container>
       </section>
-    </PageLayout>
+    </>
   );
 }
 

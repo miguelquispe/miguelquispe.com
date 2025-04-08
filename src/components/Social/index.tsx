@@ -27,7 +27,7 @@ const SocialLinks = ({ showContact }: SocialLinksProps) => {
       </a>
       <a
         href="https://www.linkedin.com/in/quispemiguel/"
-        className="social-linkedin"
+        className="social-linkedin "
         title="Conéctate conmigo en LinkedIn"
       >
         <svg
@@ -46,7 +46,7 @@ const SocialLinks = ({ showContact }: SocialLinksProps) => {
       </a>
       <a
         href="https://github.com/miguelquispe"
-        className="social-github"
+        className="social-github "
         title="GitHub"
       >
         <svg
@@ -65,7 +65,7 @@ const SocialLinks = ({ showContact }: SocialLinksProps) => {
       {showContact && (
         <a
           href="mailto:hola@miguelquispe.com"
-          className="social-contact"
+          className="social-contact "
           title="Escríbeme por correo"
         >
           <svg

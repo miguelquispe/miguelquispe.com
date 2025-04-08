@@ -1,4 +1,4 @@
-@import "styles/settings/_settings";
+@import 'styles/settings/_settings';
 
 *,
 *::after,
@@ -6,85 +6,85 @@
   box-sizing: border-box;
 }
 
-html {
-  font-family: $font-family-base;
-  font-size: 16px;
-  font-weight: $font-weight-regular;
-  line-height: 1.2;
-}
+// html {
+//   font-family: $font-family-base;
+//   font-size: 16px;
+//   font-weight: $font-weight-regular;
+//   line-height: 1.2;
+// }
 
-body {
-  padding: 0;
-  margin: 0;
-  color: $color-blue-gray;
-}
+// body {
+//   padding: 0;
+//   margin: 0;
+//   color: $color-blue-gray;
+// }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  // font-family: $font-family-base;
-  margin: 0;
-  font-weight: $font-weight-medium;
-  line-height: 1.2;
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   // font-family: $font-family-base;
+//   margin: 0;
+//   font-weight: $font-weight-medium;
+//   line-height: 1.2;
 
-  a {
-    color: $color-blue-gray;
-  }
-}
+//   a {
+//     color: $color-blue-gray;
+//   }
+// }
 
-h1,
-.h1 {
-  font-size: 2.5rem;
-}
+// h1,
+// .h1 {
+//   font-size: 2.5rem;
+// }
 
-h2,
-.h2 {
-  font-size: 2rem;
-}
+// h2,
+// .h2 {
+//   font-size: 2rem;
+// }
 
-h3,
-.h3 {
-  font-size: 1.5rem;
-}
+// h3,
+// .h3 {
+//   font-size: 1.5rem;
+// }
 
-h4,
-.h4 {
-  font-size: 1.25rem;
-}
+// h4,
+// .h4 {
+//   font-size: 1.25rem;
+// }
 
-a {
-  color: $color-purple-400;
-  text-decoration: none;
-  transition: transform 250ms ease;
+// a {
+//   color: $color-purple-400;
+//   text-decoration: none;
+//   transition: transform 250ms ease;
 
-  &:hover {
-    color: $color-purple-500;
-    transform: translateY(-1px);
-  }
-}
+//   &:hover {
+//     color: $color-purple-500;
+//     transform: translateY(-1px);
+//   }
+// }
 
-ol,
-ul,
-p {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
+// ol,
+// ul,
+// p {
+//   margin-top: 0;
+//   margin-bottom: 1.5rem;
+//   line-height: 1.6;
+// }
 
-ol,
-ul {
-  // margin: 1rem 0;
-  padding-left: 1.5rem;
-}
+// ol,
+// ul {
+//   // margin: 1rem 0;
+//   padding-left: 1.5rem;
+// }
 
-li {
-  line-height: 1.4;
-}
+// li {
+//   line-height: 1.4;
+// }
 
-img {
-  display: block;
-  max-width: 100%;
-}
+// img {
+//   display: block;
+//   max-width: 100%;
+// }
