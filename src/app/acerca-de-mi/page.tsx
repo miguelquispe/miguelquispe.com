@@ -1,4 +1,3 @@
-import styles from '@styles/About.module.scss';
 import Container from '@components/Container';
 import Image from 'next/image';
 import SocialLinks from '@components/Social';
@@ -61,13 +60,3 @@ export default function About() {
     </section>
   );
 }
-
-// export async function getStaticProps() {
-//   const posts = await getAllPosts();
-
-//   return {
-//     props: {
-//       posts,
-//     },
-//   };
-// }
