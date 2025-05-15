@@ -67,7 +67,6 @@ const components = {
 
 export async function getPostFromSlug(slug: string): Promise<Record<any, any>> {
   const postPath = path.join(POSTS_PATH, `${slug}.mdx`);
-  console.log(postPath);
   const fileContent = fs.readFileSync(postPath, 'utf-8');
 
   const { content, frontmatter } = await compileMDX({

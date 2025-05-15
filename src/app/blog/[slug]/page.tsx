@@ -11,7 +11,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { meta } = await getPostFromSlug(slug);
   return {
     title: meta.title,
