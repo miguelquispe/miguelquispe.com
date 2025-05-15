@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
 import { GTMnoscript, GTMscript } from '@components/GTM';
+import { Analytics } from '@vercel/analytics/react';
 
 // Custom Fonts
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <main>{children}</main>
         <Footer />
       </body>
+      <Analytics />
     </html>
   );
 }
