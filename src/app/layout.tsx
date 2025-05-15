@@ -1,5 +1,5 @@
 import { Inter, Lexend } from 'next/font/google';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import './globals.css';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
@@ -22,14 +22,30 @@ interface RootLayoutProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Miguel Quispe | Desarrollo Frontend y Mobile: React - React Native',
+  metadataBase: new URL('https://miguelquispe.com'),
+  title:
+    'Miguel Quispe | Desarrollador de Frontend y Mobile: React - React Native',
   description:
-    'Comparto artículos y tutoriales sobre desarrollo de software: Frontend, React, React Native, JavaScript y más...',
+    'Artículos y tutoriales sobre desarrollo de software: Frontend, React, React Native, JavaScript y más...',
   openGraph: {
     images: '/images/cover-share-page.png',
     type: 'website',
+    url: './',
+    siteName: 'Miguel Quispe',
   },
-  authors: [{ name: 'Miguel Quispex' }],
+  twitter: {
+    card: 'summary_large_image',
+    site: '@miguelquispecom',
+    images: '/images/cover-share-page.png',
+  },
+  alternates: {
+    canonical: './',
+  },
+  authors: [{ name: 'Miguel Quispe' }],
+  robots: {
+    follow: true,
+    index: true,
+  },
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {

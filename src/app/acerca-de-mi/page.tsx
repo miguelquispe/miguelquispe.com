@@ -1,6 +1,12 @@
 import Container from '@components/Container';
 import Image from 'next/image';
 import SocialLinks from '@components/Social';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  description:
+    'Desarrollador de software con experiencia en frontend y desarrollo de aplicaciones móviles utilizando React Native. Lima, Perú.',
+};
 
 export default function About() {
   return (

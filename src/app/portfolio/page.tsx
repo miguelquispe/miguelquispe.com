@@ -1,17 +1,17 @@
 import Container from '@components/Container';
 import { PROJECTS } from '@constants/projects';
 import '@styles/components/portfolio.css';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title:
+    'Portfolio - Miguel Quispe | Desarrollo Frontend y Mobile React Native',
+  description:
+    'Explora mi portfolio donde comparto proyectos realizados como desarrollador de software freelance. Lima, Perú.',
+};
 
 export default function About() {
   return (
-    // <PageLayout
-    //   seo={{
-    //     title:
-    //       'Portfolio - Miguel Quispe | Desarrollo Frontend y Mobile React Native',
-    //     description:
-    //       'Explora mi portfolio donde comparto proyectos realizados como desarrollador de software freelance. Lima, Perú.',
-    //   }}
-    // >
     <section className="p-8">
       <Container small>
         <h1 className="font-inter font-semibold mb-10">Portfolio</h1>
@@ -51,6 +51,5 @@ export default function About() {
         </div>
       </Container>
     </section>
-    // </PageLayout>
   );
 }
