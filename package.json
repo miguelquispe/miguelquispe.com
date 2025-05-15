@@ -1,6 +1,7 @@
 {
   "name": "miguelquispe.com",
-  "version": "0.1.0",
+  "description": "Miguel Quispe's personal website",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
