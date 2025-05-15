@@ -25,7 +25,7 @@ const PostItem = ({
           })}
         </li>
         {tags?.map((tag) => <li key={tag}>{tag}</li>)}
-        <li>{Math.ceil(readingTime)} min. lectura</li>
+        <li>{readingTime} min. lectura</li>
       </ul>
     </article>
   );

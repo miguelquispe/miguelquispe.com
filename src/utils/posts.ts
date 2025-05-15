@@ -37,6 +37,11 @@ export async function getFiles(type: string): Promise<string[]> {
   return fs.readdirSync(dirPath).filter((file) => file.endsWith('.mdx'));
 }
 
+// Helper to get rounded reading time in minutes
+function getReadingTime(text: string): number {
+  return Math.ceil(readingTime(text).minutes);
+}
+
 export function getAllPosts(): PostMeta[] {
   const files = fs.readdirSync(POSTS_PATH);
 
@@ -51,7 +56,7 @@ export function getAllPosts(): PostMeta[] {
         ...frontmatter,
         slug: file.replace(/\.(mdx|md)/, ''),
         publishedAt: (frontmatter.publishedAt ?? new Date()).toString(),
-        readingTime: readingTime(content).minutes,
+        readingTime: getReadingTime(content),
       });
     }
   });
@@ -68,6 +73,9 @@ const components = {
 export async function getPostFromSlug(slug: string): Promise<Record<any, any>> {
   const postPath = path.join(POSTS_PATH, `${slug}.mdx`);
   const fileContent = fs.readFileSync(postPath, 'utf-8');
+  const { content: contentMatter } = matter(fileContent);
+
+  const readingTime = getReadingTime(contentMatter);
 
   const { content, frontmatter } = await compileMDX({
     source: fileContent,
@@ -96,7 +104,7 @@ export async function getPostFromSlug(slug: string): Promise<Record<any, any>> {
     meta: {
       slug,
       publishedAt: (frontmatter.publishedAt ?? new Date()).toString(),
-      // readingTime: readingTime(content).minutes,
+      readingTime,
       ...frontmatter,
     },
     draft: frontmatter.draft ?? false,

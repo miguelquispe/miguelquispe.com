@@ -32,7 +32,7 @@ const PostHeader = ({
           })}
         </li>
         <li>En {tags?.join(', ')}</li>
-        {/* <li>{Math.ceil(readingTime)} minutos de lectura</li> */}
+        <li>{readingTime} minutos de lectura</li>
       </ul>
     </header>
   );
