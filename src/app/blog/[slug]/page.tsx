@@ -9,9 +9,9 @@ import { PostHeader, PostShare } from '@components/Post';
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { meta } = await getPostFromSlug(slug);
   return {
     title: meta.title,
@@ -41,14 +41,12 @@ export const generateStaticParams = async () => {
   }));
 };
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export default async function PostPage({ params }: PageProps) {
-  const { slug } = params;
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const { content, meta } = await getPostFromSlug(slug);
 
   if (!content) {
