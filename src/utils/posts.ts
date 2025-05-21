@@ -70,7 +70,21 @@ const components = {
   PostCodepen,
 };
 
-export async function getPostFromSlug(slug: string): Promise<Record<any, any>> {
+interface PostContent {
+  content: React.ReactNode;
+  meta: {
+    slug: string;
+    publishedAt: string;
+    readingTime: number;
+    title?: string;
+    description?: string;
+    tags?: string[];
+    [key: string]: unknown;
+  };
+  draft: boolean;
+}
+
+export async function getPostFromSlug(slug: string): Promise<PostContent> {
   const postPath = path.join(POSTS_PATH, `${slug}.mdx`);
   const fileContent = fs.readFileSync(postPath, 'utf-8');
   const { content: contentMatter } = matter(fileContent);
@@ -107,7 +121,7 @@ export async function getPostFromSlug(slug: string): Promise<Record<any, any>> {
       readingTime,
       ...frontmatter,
     },
-    draft: frontmatter.draft ?? false,
+    draft: Boolean(frontmatter.draft ?? false),
   };
 }
 

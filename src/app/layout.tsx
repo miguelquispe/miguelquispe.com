@@ -1,5 +1,5 @@
 import { Inter, Lexend } from 'next/font/google';
-import { Metadata, Viewport } from 'next';
+import { Metadata } from 'next';
 import './globals.css';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
