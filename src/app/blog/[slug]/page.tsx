@@ -11,7 +11,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const { meta } = await getPostFromSlug(slug);
   return {
     title: meta.title,
@@ -42,13 +42,13 @@ export const generateStaticParams = async () => {
 };
 
 type PageProps = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
 export default async function PostPage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const { content, meta } = await getPostFromSlug(slug);
 
   if (!content) {
