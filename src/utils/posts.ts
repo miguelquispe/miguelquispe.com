@@ -3,13 +3,18 @@ import { sync } from 'glob';
 import fs from 'fs';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
-import type { Post, PostMeta } from '@components/Post';
-import { serialize } from 'next-mdx-remote/serialize';
+import {
+  PostCodepen,
+  PostImage,
+  PostLink,
+  type PostMeta,
+} from '@components/Post';
 import rehypePrism from 'rehype-prism-plus';
 import rehypeSlug from 'rehype-slug';
 import rehypeCodeTitles from 'rehype-code-titles';
 
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
 const root = process.cwd();
 
@@ -28,10 +33,16 @@ export function getSlugs(): string[] {
 }
 
 export async function getFiles(type: string): Promise<string[]> {
-  return fs.readdirSync(path.join(root, 'content', type));
+  const dirPath = path.join(root, 'content', type);
+  return fs.readdirSync(dirPath).filter((file) => file.endsWith('.mdx'));
 }
 
-export async function getAllPosts(): Promise<PostMeta[]> {
+// Helper to get rounded reading time in minutes
+function getReadingTime(text: string): number {
+  return Math.ceil(readingTime(text).minutes);
+}
+
+export function getAllPosts(): PostMeta[] {
   const files = fs.readdirSync(POSTS_PATH);
 
   const allPosts: PostMeta[] = [];
@@ -45,7 +56,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
         ...frontmatter,
         slug: file.replace(/\.(mdx|md)/, ''),
         publishedAt: (frontmatter.publishedAt ?? new Date()).toString(),
-        readingTime: readingTime(content).minutes,
+        readingTime: getReadingTime(content),
       });
     }
   });
@@ -53,37 +64,64 @@ export async function getAllPosts(): Promise<PostMeta[]> {
   return allPosts.sort((a, b) => dateSortDesc(a.publishedAt, b.publishedAt));
 }
 
-export async function getPostFromSlug(slug: string): Promise<Post> {
+const components = {
+  PostImage,
+  a: PostLink,
+  PostCodepen,
+};
+
+interface PostContent {
+  content: React.ReactNode;
+  meta: {
+    slug: string;
+    publishedAt: string;
+    readingTime: number;
+    title?: string;
+    description?: string;
+    tags?: string[];
+    [key: string]: unknown;
+  };
+  draft: boolean;
+}
+
+export async function getPostFromSlug(slug: string): Promise<PostContent> {
   const postPath = path.join(POSTS_PATH, `${slug}.mdx`);
   const fileContent = fs.readFileSync(postPath, 'utf-8');
-  const { content, data } = matter(fileContent);
+  const { content: contentMatter } = matter(fileContent);
 
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      rehypePlugins: [
-        rehypeSlug,
-        rehypeCodeTitles,
-        rehypePrism,
-        [
-          rehypeAutolinkHeadings,
-          {
-            behavior: 'wrap',
-          },
+  const readingTime = getReadingTime(contentMatter);
+
+  const { content, frontmatter } = await compileMDX({
+    source: fileContent,
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        rehypePlugins: [
+          rehypeSlug,
+          rehypeCodeTitles,
+          rehypePrism,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: 'wrap',
+            },
+          ],
         ],
-      ],
-      format: 'mdx',
+        format: 'mdx',
+      },
     },
+    components,
   });
 
   return {
-    content: mdxSource,
+    content,
     meta: {
       slug,
-      publishedAt: (data.publishedAt ?? new Date()).toString(),
-      readingTime: readingTime(content).minutes,
-      ...data,
+      publishedAt: (frontmatter.publishedAt ?? new Date()).toString(),
+      readingTime,
+      ...frontmatter,
     },
-    draft: data.draft ?? false,
+    draft: Boolean(frontmatter.draft ?? false),
   };
 }
 

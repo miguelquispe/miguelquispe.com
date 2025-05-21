@@ -13,7 +13,7 @@ export interface PostMeta {
   tags?: string[];
   type?: string;
   publishedAt: string;
-  readingTime: number;
+  readingTime?: number;
   image?: string;
 }
 

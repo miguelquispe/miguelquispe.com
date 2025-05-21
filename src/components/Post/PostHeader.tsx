@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Image from 'next/image';
-import styles from './Post.module.scss';
+import styles from './Post.module.css';
 import { PostMeta } from './types';
 
 const PostHeader = ({
@@ -12,7 +12,7 @@ const PostHeader = ({
 }: PostMeta) => {
   return (
     <header className={styles.header}>
-      <h1>{title}</h1>
+      <h1 className="text-4xl">{title}</h1>
 
       <ul className={styles.meta}>
         <li>
@@ -32,7 +32,7 @@ const PostHeader = ({
           })}
         </li>
         <li>En {tags?.join(', ')}</li>
-        <li>{Math.ceil(readingTime)} minutos de lectura</li>
+        <li>{readingTime} minutos de lectura</li>
       </ul>
     </header>
   );

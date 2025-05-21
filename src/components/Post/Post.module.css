@@ -1,0 +1,62 @@
+@reference "../../app/globals.css";
+/* main */
+.main {
+  @apply mb-10;
+
+  & h3 {
+    @apply text-2xl font-inter mb-4 font-semibold;
+  }
+
+  & a {
+    @apply text-[var(--color-blue-gray)] transition-colors;
+
+    &:hover {
+      @apply text-purple-500;
+    }
+  }
+}
+
+/* header */
+.header {
+  @apply mb-15;
+}
+
+.header h1 {
+  @apply font-bold mb-2.5;
+}
+
+/* meta */
+.meta {
+  @apply list-none m-0 p-0 flex flex-wrap;
+
+  & li {
+    @apply font-lexend text-gray inline-flex items-center;
+  }
+}
+
+.meta img {
+  @apply mr-3 rounded-full;
+}
+
+.meta .meta li:first-child {
+  @apply gap-3;
+}
+
+.meta li:not(:first-child) {
+  @apply pl-6 relative;
+}
+
+.meta li:not(:first-child)::before {
+  content: '•';
+  @apply inline-block absolute -translate-x-3;
+}
+
+/* share */
+.share {
+  @apply flex mt-10 gap-2 text-purple-400 items-center;
+}
+
+/* social */
+.social:hover {
+  @apply -translate-y-px transition-transform duration-250 ease-in-out;
+}

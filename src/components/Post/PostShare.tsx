@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import {
   LinkedinIcon,
@@ -6,7 +7,7 @@ import {
   TwitterShareButton,
 } from 'react-share';
 import { PostShareValues } from './types';
-import styles from './Post.module.scss';
+import styles from './Post.module.css';
 
 const PostShare = ({ title, summary, url }: PostShareValues) => {
   return (

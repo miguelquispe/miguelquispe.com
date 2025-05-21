@@ -1,8 +1,9 @@
+'use client';
 import Container from '@components/Container/Container';
 import Link from 'next/link';
 import Logo from '../Logo';
-import styles from './Header.module.scss';
-import { useRouter } from 'next/router';
+import styles from './Header.module.css';
+import { usePathname } from 'next/navigation';
 
 const links = [
   { name: 'Inicio', href: '/' },
@@ -18,27 +19,25 @@ const links = [
 ];
 
 export default function Header() {
-  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <header className={styles.main}>
       <Container>
-        <nav className="flex sb">
+        <nav className="flex justify-between">
           <div className={styles.brand}>
             <Link href={'/'}>
-              <a>
-                <Logo fill="#6845FA" />
-              </a>
+              <Logo fill="#6845FA" />
             </Link>
           </div>
           <div className={`flex ${styles.menu}`}>
             {links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                <a
-                  className={router.pathname === link.href ? styles.active : ''}
-                >
-                  {link.name}
-                </a>
+              <Link
+                href={link.href}
+                key={link.href}
+                className={pathname === link.href ? styles.active : ''}
+              >
+                {link.name}
               </Link>
             ))}
           </div>

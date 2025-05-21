@@ -1,0 +1,25 @@
+@reference "../../app/globals.css";
+
+.footer {
+  @apply p-8 pt-0;
+
+  & hr {
+    @apply h-0 border-0 border-t border-solid border-gray-100 mb-8 w-full;
+  }
+
+  & nav {
+    @apply gap-8;
+
+    & a {
+      @apply font-lexend text-gray;
+
+      &:hover {
+        @apply text-purple-400;
+      }
+    }
+  }
+}
+
+.copyright {
+  @apply font-inter font-semibold m-0;
+}

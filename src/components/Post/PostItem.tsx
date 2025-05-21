@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Link from 'next/link';
-import styles from './Post.module.scss';
+import styles from './Post.module.css';
 import { PostMeta } from './types';
 
 const PostItem = ({
@@ -13,9 +13,9 @@ const PostItem = ({
 }: PostMeta) => {
   return (
     <article className={styles.main}>
-      <h3 className="font-primary">
-        <Link href={`blog/${slug}`} passHref>
-          <a>{title}</a>
+      <h3>
+        <Link href={`blog/${slug}`} prefetch>
+          {title}
         </Link>
       </h3>
       <ul className={styles.meta}>
@@ -24,10 +24,8 @@ const PostItem = ({
             locale: es,
           })}
         </li>
-        {tags?.map((tag) => (
-          <li key={tag}>{tag}</li>
-        ))}
-        <li>{Math.ceil(readingTime)} min. lectura</li>
+        {tags?.map((tag) => <li key={tag}>{tag}</li>)}
+        <li>{readingTime} min. lectura</li>
       </ul>
     </article>
   );
