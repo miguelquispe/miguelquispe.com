@@ -1,13 +1,11 @@
 // ESLint Flat Config for Next.js 15, Prettier, and custom rules
 import { FlatCompat } from '@eslint/eslintrc';
-import next from '@next/eslint-plugin-next';
-import prettier from 'eslint-config-prettier';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
-export default [
+const eslintConfig = [
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     rules: {
@@ -17,3 +15,5 @@ export default [
     },
   }),
 ];
+
+export default eslintConfig;
