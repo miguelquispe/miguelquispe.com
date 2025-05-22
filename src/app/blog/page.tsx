@@ -1,6 +1,11 @@
 import Container from '@components/Container';
 import { PostItem } from '@components/Post';
+import { Metadata } from 'next';
 import { getAllPosts } from 'utils/posts';
+
+export const metadata: Metadata = {
+  title: 'Blog - Miguel Quispe',
+};
 
 export default async function Page() {
   const posts = await getAllPosts();
