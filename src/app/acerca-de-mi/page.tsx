@@ -62,6 +62,15 @@ export default function About() {
             </p>
           </div>
         </div>
+        <h2 className="font-inter font-bold text-4xl mt-20 mb-10">
+          Experiencia
+        </h2>
+        <div>
+          <p>
+            Participé en proyectos para grandes firmas de los sectores
+            tecnológico, financiero y de servicios.
+          </p>
+        </div>
       </Container>
     </section>
   );
