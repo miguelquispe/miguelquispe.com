@@ -2,15 +2,17 @@ import Container from '@components/Container';
 import Image from 'next/image';
 import SocialLinks from '@components/Social';
 import { Metadata } from 'next';
+import { WORK_LOGOS } from '@constants/experience';
 
 export const metadata: Metadata = {
+  title: 'Acerca de mí',
   description:
-    'Desarrollador de software con experiencia en frontend y desarrollo de aplicaciones móviles utilizando React Native. Lima, Perú.',
+    'Desarrollador de software con experiencia en frontend, backend y desarrollo de aplicaciones móviles utilizando React Native. Lima, Perú.',
 };
 
 export default function About() {
   return (
-    <section className="p-1">
+    <section className="p-8">
       <Container small>
         <h1 className="font-inter font-bold text-4xl mb-10">Acerca de mí</h1>
         <div className="md:flex gap-8">
@@ -31,8 +33,8 @@ export default function About() {
           <div className="text-[18px] [&>p]:mb-6 [&>p]:leading-7.5">
             <p>
               ¡Hola! Soy Miguel Quispe, desarrollador de software con
-              experiencia en frontend y desarrollo de aplicaciones móviles
-              utilizando React Native.
+              experiencia en frontend, backend y desarrollo de aplicaciones
+              móviles utilizando React Native.
             </p>
 
             <p>
@@ -41,13 +43,6 @@ export default function About() {
               funcionales. Mi deseo constante de aprender y crecer me impulso a
               explorar el mundo del desarrollo de software y a dominar el arte
               de la programación.
-            </p>
-
-            <p>
-              He colaborado en una amplia variedad de proyectos de
-              transformación digital, abarcando diversas industrias y
-              colaborando tanto con emprendedores y startups como con empresas
-              consolidadas.
             </p>
 
             <p>
@@ -61,6 +56,32 @@ export default function About() {
               pregunta, comentario o simplemente quieres charlar!
             </p>
           </div>
+        </div>
+        <h2 className="font-inter font-bold text-4xl mt-20 mb-10">
+          Experiencia
+        </h2>
+        <div>
+          <p>
+            He colaborado en una amplia variedad de proyectos de transformación
+            digital, abarcando diversas industrias y colaborando tanto con
+            emprendedores y startups como con empresas consolidadas.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4  overflow-hidden mt-15 mb-20 border-[0.5px] border-gray-100 ">
+          {WORK_LOGOS.map((logo) => (
+            <div
+              className="flex items-center justify-center p-6 border-[0.5px] border-gray-100"
+              key={logo.name}
+            >
+              <Image
+                src={logo.images}
+                alt={logo.name}
+                width={100}
+                height={100}
+                className="w-full object-contain filter grayscale opacity-80 hover:opacity-100 transition-opacity duration-300"
+              />
+            </div>
+          ))}
         </div>
       </Container>
     </section>
