@@ -5,9 +5,9 @@ import { Metadata } from 'next';
 import { WORK_LOGOS } from '@constants/experience';
 
 export const metadata: Metadata = {
-  title: 'Acerca de mí',
+  title: 'Acerca de mí – Desarrollador de software',
   description:
-    'Desarrollador de software con experiencia en frontend, backend y desarrollo de aplicaciones móviles utilizando React Native. Lima, Perú.',
+    'Desarrollador de software con experiencia en frontend, backend y aplicaciones móviles con React Native.',
 };
 
 export default function About() {

@@ -26,9 +26,9 @@ interface RootLayoutProps {
 export const metadata: Metadata = {
   metadataBase: new URL('https://miguelquispe.com'),
   title:
-    'Miguel Quispe | Desarrollador de Frontend y Mobile: React - React Native',
+    'Miguel Quispe | Desarrollador de software - Frontend, Mobile y Fullstack',
   description:
-    'Artículos y tutoriales sobre desarrollo de software: Frontend, React, React Native, JavaScript y más...',
+    'Artículos y proyectos sobre desarrollo de software enfocado en frontend y mobile. Temas como React, React Native, JavaScript y experiencias en entornos fullstack.',
   openGraph: {
     images: '/images/cover-share-page.png',
     type: 'website',
