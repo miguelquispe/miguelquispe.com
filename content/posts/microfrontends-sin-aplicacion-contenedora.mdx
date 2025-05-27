@@ -1,0 +1,98 @@
+---
+title: 'MicroFrontend: consideraciones al trabajar sin una aplicación contenedora'
+description: 'En esta primera parte comparto buenas prácticas y decisiones clave para trabajar con microfrontends cuando aún no existe una aplicación contenedora definida (host).'
+publishedAt: '2025-05-27'
+type: 'article'
+tags:
+  - 'MicroFrontend'
+---
+
+En muchos proyectos reales, los equipos comienzan a desarrollar sus módulos antes de tener una aplicación contenedora (conocida también como _host_ o _shell_). Esta situación es común, especialmente en entornos ágiles, donde se busca avanzar de manera paralela sin bloqueos.
+
+<SeriesBlock
+  title="Integrando Microfrontends en Proyectos Reales"
+  items={[
+    {
+      label: 'Parte 1: MicroFrontend sin aplicación contenedora',
+      href: '/microfrontends-sin-aplicacion-contenedora',
+      current: true,
+    },
+    {
+      label: 'Parte 2: Mi enfoque para un escenario ideal (próximamente)',
+      href: '/microfrontends-escenario-ideal',
+      disabled: true,
+    },
+    {
+      label:
+        'Parte 3: Lineamientos y configuración entre equipos (próximamente)',
+      href: '/microfrontends-configuracion-convenciones',
+      disabled: true,
+    },
+  ]}
+/>
+
+En esta primera parte comparto algunas consideraciones técnicas y organizativas que pueden ayudarte cuando se trabaja con módulos independientes, sin tener aún una aplicación contenedora definida.
+
+## 1. Define claramente si trabajas con módulos o submódulos
+
+Antes de comenzar, identifica si tu módulo se integrará directamente en la aplicación principal o será parte de otro módulo (un submódulo). Esto cambia las decisiones técnicas: desde qué dependencias necesitarás hasta cómo manejar el contexto.
+
+> **¿Por qué esto importa?** Un submódulo depende más del módulo que lo contiene. Anticiparlo evita reestructuraciones más adelante.
+
+## 2. Diseña cada módulo como si fuera remoto
+
+Aunque el módulo se monte temporalmente en otro para avanzar, es buena práctica tratarlo como un microfrontend independiente desde el inicio. Esto simplifica su futura exposición e integración.
+
+## 3. Usa convenciones claras desde el inicio
+
+Define cómo se expondrán los elementos principales del módulo, como componentes, slices, adapters y hooks. Algunos ejemplos comunes son: `./ModuloComponent`, `./ModuloSlices`, `./ModuloHooks`.
+
+## 4. Gestiona cuidadosamente las dependencias compartidas
+
+Asegura que cada módulo configure correctamente sus dependencias compartidas (por ejemplo, `react`, `react-dom`, `@reduxjs/toolkit`) usando Module Federation con la opción `singleton`.
+
+Además, todos los módulos deben usar la **misma versión** de estas dependencias para evitar errores o comportamientos inesperados al integrarse.
+
+## 5. Mantén aislado el estado y los estilos
+
+Cada módulo debería tener su propio estado local, sobre todo si aún no existe un store global. Esto ayuda a que los equipos trabajen sin depender unos de otros.
+
+En estilos, conviene usar soluciones como Tailwind con `prefix` o CSS Modules. Así evitas conflictos visuales cuando se cargan varios módulos en una misma vista.
+
+## 6. Exporta solo lo necesario
+
+Durante el desarrollo es normal usar un archivo bootstrap para probar tu módulo de forma aislada. Allí puedes importar todo lo que necesites.
+
+Pero al momento de exportarlo (por ejemplo, en `main.tsx`), incluye solo lo esencial. No dupliques recursos que ya aporta la aplicación contenedora, como los estilos de alguna librería de componentes.
+
+## 7. Documenta claramente lo que expones
+
+Un documento breve, pero claro, con lo que el módulo expone (componente, slice, hook, etc.) facilita que otros equipos lo integren sin fricción.
+
+## 8. Comunicación constante entre equipos y apoyo mutuo
+
+Aunque los equipos trabajen en paralelo, es clave mantener la coordinación. Reuniones cortas y constantes ayudan a alinear criterios y prevenir bloqueos antes de que escalen.
+
+> **¿Por qué es importante?** Coordinar temprano es más barato que corregir tarde.
+
+## Conclusión
+
+La integración puede llegar después de varios sprints, cuando ya se espera ver avances funcionales de los módulos integrados. Por eso, mantener una buena comunicación entre equipos es esencial para evitar contratiempos.
+
+### Glosario
+
+**Aplicación contenedora (host / shell):** Aplicación principal que orquesta e integra los módulos desarrollados de forma independiente. Se encarga de manejar navegación, estilos globales y carga dinámica de microfrontends.
+
+**Microfrontend:** Módulo de frontend que se puede desarrollar, desplegar e integrar de manera autónoma, como parte de una aplicación mayor.
+
+**Module Federation:** Funcionalidad de Webpack que permite compartir módulos entre aplicaciones en tiempo de ejecución.
+
+**Bootstrap (en este contexto):** Archivo que sirve para probar un módulo de forma aislada, sin depender de la aplicación principal.
+
+**Singleton:** Opción que se usa en `Module Federation` para compartir una sola instancia de una dependencia entre múltiples módulos.
+
+**Prefix (en Tailwind):** Configuración que permite evitar conflictos de estilos entre módulos usando un prefijo en las clases CSS.
+
+Gracias por leer, que tengas un día maravilloso. 🌞
+
+👉 Continúa con la siguiente parte: [MicroFrontend: Mi enfoque para un escenario ideal ](#)
