@@ -15,6 +15,7 @@ import rehypeCodeTitles from 'rehype-code-titles';
 
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import { SeriesBlock } from '@components/SeriesBlock';
 
 const root = process.cwd();
 
@@ -68,6 +69,7 @@ const components = {
   PostImage,
   a: PostLink,
   PostCodepen,
+  SeriesBlock,
 };
 
 interface PostContent {
