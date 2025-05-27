@@ -18,8 +18,8 @@ export default function Page() {
             Soy Miguel Quispe
           </h1>
           <h2 className="font-lexend text-2xl text-white">
-            Soy desarrollador Frontend - Mobile que disfruta de aprender,
-            compartir conocimientos y viajar.
+            Desarrollo software frontend y mobile, con experiencia en proyectos
+            fullstack. Disfruto compartir lo que aprendo y viajar.
           </h2>
 
           <div className="hero-icons">

@@ -4,7 +4,9 @@ import { Metadata } from 'next';
 import { getAllPosts } from 'utils/posts';
 
 export const metadata: Metadata = {
-  title: 'Blog - Miguel Quispe',
+  title: 'Blog - Desarrollo de Software: Frontend, Mobile y Fullstack',
+  description:
+    'Artículos y proyectos sobre desarrollo frontend y mobile con tecnologías como React, React Native y JavaScript. También comparto experiencias en entornos fullstack.',
 };
 
 export default async function Page() {

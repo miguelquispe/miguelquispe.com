@@ -4,8 +4,7 @@ import '@styles/components/portfolio.css';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title:
-    'Portfolio - Miguel Quispe | Desarrollo Frontend y Mobile React Native',
+  title: 'Portfolio - Miguel Quispe | Frontend, Mobile y Fullstack',
   description:
     'Explora mi portfolio donde comparto proyectos realizados como desarrollador de software freelance. Lima, Perú.',
 };
