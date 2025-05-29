@@ -1,0 +1,77 @@
+---
+title: 'MicroFrontend: el escenario ideal para una integración ordenada'
+description: 'En esta segunda parte comparto prácticas recomendadas para integrar microfrontends cuando se parte de un escenario ideal, donde todo esta definido desde el inicio.'
+publishedAt: '2025-05-29'
+type: 'article'
+tags:
+  - 'MicroFrontend'
+---
+
+En esta segunda parte de la serie, comparto lo que considero un escenario ideal para integrar microfrontends desde el inicio. A diferencia de la parte anterior, aquí asumimos que ya existe una aplicación contenedora (host), un equipo técnico alineado, y acuerdos previos que permiten una integración más ordenada.
+
+<SeriesBlock
+  title="Integrando Microfrontends en Proyectos Reales"
+  items={[
+    {
+      label: 'Parte 1 - MicroFrontend: sin aplicación contenedora',
+      href: '/blog/microfrontends-sin-aplicacion-contenedora',
+    },
+    {
+      label:
+        'Parte 2 - MicroFrontend: el escenario ideal para una integración ordenada',
+      href: '/blog/microfrontends-escenario-ideal',
+      current: true,
+    },
+    {
+      label:
+        'Parte 3 - MicroFrontend: lineamientos y configuración entre equipos (próximamente)',
+      href: '/blog/microfrontends-configuracion-convenciones',
+      disabled: true,
+    },
+  ]}
+/>
+
+## 1. Definir el host desde el inicio
+
+Establecer desde el comienzo cuál será la aplicación contenedora ayuda a los equipos a exponer correctamente sus módulos y a planificar la integración desde la arquitectura.
+
+## 2. Tener responsables claros por módulo
+
+Conocer desde el inicio quiénes son los responsables técnicos de cada módulo (como líderes técnicos, developers, etc.) permite una comunicación más fluida y una mejor autogestión del proyecto.
+
+## 3. Alinear diseño y componentes UI globales
+
+El equipo de diseño debe definir desde el inicio los componentes visuales comunes. Idealmente, estos deben estar en una librería compartida para asegurar consistencia entre módulos.
+
+## 4. Compartir un template base de configuración
+
+Contar con un template base (con configuración mínima de Webpack/Vite, alias, pruebas, bootstrap local, etc.) ayuda a mantener coherencia entre módulos desde el arranque.
+
+## 5. Establecer contratos de integración
+
+Cada módulo debe definir claramente qué expone y cómo se debe consumir. Esto incluye:
+
+- Componente principal
+- Props esperadas y eventos
+- Nombres de exportación
+- Punto de entrada y documentación básica de uso
+
+Una convención clara facilita la integración entre equipos.
+
+## 6. Identificar librerías compartidas y versiones
+
+Definir qué librerías se compartirán (como React, Redux, etc.) y acordar versiones compatibles entre equipos. También es importante decidir si se usará siempre la versión más reciente o se respetará un rango (por ejemplo, solo actualizaciones mayores o de parches).
+
+## 7. Tener un entorno de staging común
+
+Un ambiente donde se integren todos los módulos antes de producción permite validar flujos reales y detectar errores de integración de manera anticipada.
+
+## Conclusión:
+
+En desarrollo de software, todos quisiéramos partir de un escenario ideal. Pero la realidad muchas veces es distinta. Por eso, más allá de la planificación, lo que marca la diferencia es nuestra capacidad de adaptarnos, colaborar y construir soluciones incluso en contextos imperfectos.
+
+**¿Y tú? ¿Qué otro punto agregarías a este escenario ideal?**
+
+Gracias por leer, que tengas un día maravilloso. 🌞
+
+{/* 👉 Continúa con la siguiente parte: [Lineamientos y configuración entre equipos](#) */}

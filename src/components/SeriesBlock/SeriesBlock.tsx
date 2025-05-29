@@ -24,11 +24,16 @@ export const SeriesBlock: React.FC<Props> = ({ title, items }) => {
         {items.map((item, index) => (
           <li key={index}>
             {item.current ? (
-              <span className="font-bold text-blue-gray">{item.label}</span>
+              <span className="font-bold text-purple-500">{item.label}</span>
             ) : item.disabled || !item.href ? (
               <span className="text-zinc-400 italic">{item.label}</span>
             ) : (
-              <Link href={item.href}>{item.label}</Link>
+              <Link
+                href={item.href}
+                className=" text-blue-gray underline hover:text-purple-500 transition-colors"
+              >
+                {item.label}
+              </Link>
             )}
           </li>
         ))}

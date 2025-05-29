@@ -10,7 +10,7 @@ const Available = () => {
         title="¡Disponible para proyectos!"
       >
         <span className={styles.available__dot} />
-        <span className={styles.available__text}>Freelance</span>
+        <span className={styles.available__text}>Disponible</span>
       </a>
     </div>
   );
