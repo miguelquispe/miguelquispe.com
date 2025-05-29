@@ -11,7 +11,7 @@ export default function Footer() {
           <p className={styles.copyright}>
             Miguel Quispe {`© ${new Date().getFullYear()}`}
           </p>
-          <nav className="flex">
+          <nav className="flex flex-col gap-2 md:flex-row">
             <Link href="/">Inicio</Link>
 
             <a
