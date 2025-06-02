@@ -1,0 +1,231 @@
+---
+title: 'MicroFrontend: integración sin host — prácticas y configuración'
+description: 'En esta tercera parte comparto cómo logré integrar un módulo frontend en un entorno sin host definido, integrando directamente  en un  módulo padre.'
+publishedAt: '2025-06-02'
+type: 'article'
+tags:
+  - 'MicroFrontend'
+---
+
+En algunos proyectos, los módulos se desarrollan en paralelo antes de que exista una aplicación contenedora (host) claramente definida. Ese fue mi caso: trabajaba en un módulo independiente que debía integrarse con otro módulo de mayor jerarquía, sin tener aún claridad sobre el host final.
+
+<SeriesBlock
+  title="Serie: Integrando Microfrontends en Proyectos Reales"
+  items={[
+    {
+      label: 'Parte 1: MicroFrontend sin aplicación contenedora',
+      href: '/blog/microfrontends-sin-aplicacion-contenedora',
+    },
+    {
+      label:
+        'Parte 2: MicroFrontend: el escenario ideal para una integración ordenada',
+      href: '/blog/microfrontends-escenario-ideal',
+    },
+    {
+      label:
+        'Parte 3: MicroFrontend: integración sin host — prácticas y configuración',
+      href: '/blog/microfrontends-integracion-sin-host',
+      current: true,
+    },
+  ]}
+/>
+
+En este escenario, el flujo era más o menos así:
+
+- Módulo principal (host, aún sin definir).
+  - Módulo Z (módulo padre).
+    - Módulo X (módulo que solo vivirá dentro del módulo padre).
+
+Esto trajo una serie de retos técnicos que fuimos resolviendo con buena comunicación y decisiones prácticas. En este artículo comparto algunas de esas prácticas que me sirvieron para lograr una integración funcional. Para el ejemplo, utilizaremos PrimeReact y Redux Toolkit como librerías de ejemplo.
+
+## 1. Alinear versiones de librerías compartidas
+
+Debemos identificar qué versiones de librerías está usando el módulo padre, para asegurarnos de que sean compatibles con el módulo que vamos a integrar.
+
+```json:package.json
+"primereact": "9.6.1",
+"primereact-icons": "9.6.1",
+"react-redux": "9.6.1",
+"@reduxjs/toolkit": "2.5.0",
+```
+
+Esto debe quedar reflejado también en el `webpack.config.js` dentro de la sección `shared`:
+
+```js:webpack.config.js
+shared: {
+  // ... otros shared: react, react-dom, react-router-dom, etc.
+  "primereact": {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: deps["primereact"],
+  },
+  "primereact-icons": {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: deps["primereact-icons"],
+  },
+  "react-redux": {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: deps["react-redux"],
+  },
+  "@reduxjs/toolkit": {
+    singleton: true,
+    strictVersion: true,
+    requiredVersion: deps["@reduxjs/toolkit"],
+  },
+  // ... otros shared
+}
+```
+
+## 2. Configura el nombre del módulo y lo que expone
+
+Configura correctamente el `webpack.config.js` para exponer lo que realmente necesita el módulo padre(host). Esto incluye tu componente principal, slices, hooks, adaptadores, etc. Todo lo que necesite tu módulo para que funcione correctamente.
+
+```js:webpack.config.js
+...
+name: 'moduleAppX',
+filename: 'remoteEntry.js',
+exposes: {
+  "./ModuleComponent": "./src/main.tsx",
+  "./ModuleSlices": "./src/application/slices/index.ts",
+  "./ModuleApi": "./src/infrastructure/http/apiClient.ts",
+  "./ModuleHooks": "./src/application/hooks/expose.ts",
+  "./ModuleAdapter": "./src/application/adapters/expose.ts",
+},
+...
+```
+
+## 3. Evita conflictos con los estilos TailwindCSS
+
+Cuando no hay un diseño UI unificado, cada equipo crea estilos tailwind para su módulo a su criterio. Por eso, para evitar conflictos, configura Tailwind (`v3.4`) para que sus clases estén encapsuladas:
+
+```js:tailwind.config.js
+module.exports = {
+  content: ['./src/**/*.{ts,tsx,html}'],
+  important: '#module-app-x', // Usa un id único de tu módulo
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+Y dependiendo de como crees tu componente principal(main), puedes usar el id único de tu módulo para que los estilos de tailwind solo afecten al contenido de tu módulo.
+
+```tsx:main.tsx {4}
+
+export const ModuleX = () => {
+  return (
+    <div id="module-app-x">
+      <h1>Hola Mundo</h1>
+    </div>
+  );
+};
+```
+
+## 4. Importa el CSS necesario en el componente remoto
+
+Cuando utilizas otras librerías, como `react-loading-skeleton`, requieren importar su archivo CSS para que los estilos se apliquen correctamente. Si no lo haces, es posible que los componentes no se rendericen como deberían.
+
+```tsx:main.tsx
+import 'react-loading-skeleton/dist/skeleton.css';
+
+// ...
+```
+
+En mi caso, los estilos de `react-loading-skeleton` no se aplicaban hasta que los importé explícitamente en el componente remoto.
+
+## 5. Integra tus reducers o middleware en el módulo padre (Redux Toolkit)
+
+Coordina con el equipo del host cómo se van a integrar tus slices o servicios RTK. Asegúrate de exponerlos y que el host los incluya en su configureStore.
+
+```ts:module_app_z/store.ts
+// En el módulo padre
+import { moduleReducer } from 'moduleAppX/ModuleSlices';
+import { api as apiModule } from 'moduleAppX/ModuleApi';
+
+// En el store del módulo padre
+const mainStore = configureStore({
+  reducer: {
+    // ... otros reducers
+    // ModuleAppX
+    modulo: moduleReducer,
+    [apiModule.reducerPath]: apiModule.reducer,
+    // ... otros reducers
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiModule.middleware),
+});
+```
+
+Esto asegura que tu módulo pueda consumir la información desde el store del módulo padre.
+
+## 6. Evita duplicar estilos que ya están en el host
+
+Algunas librerías como PrimeReact o Bootstrap incluyen CSS que probablemente ya estén importados por el módulo padre. Verifica antes de incluirlos nuevamente para evitar conflictos de estilos.
+
+## 7. Asegura la compatibilidad con TypeScript
+
+Si usas TypeScript, crea en el módulo padre un archivo `remote.d.ts` para declarar los módulos remotos que vas a importar:
+
+```ts:module_app_z/types/remote.d.ts
+declare module 'moduleAppX/ModuleComponent';
+declare module 'moduleAppX/ModuleApi';
+declare module 'moduleAppX/ModuleSlices';
+declare module 'moduleAppX/ModuleHooks';
+declare module 'moduleAppX/ModuleAdapter';
+```
+
+Y asegúrate de que el módulo padre declare el remote en su `webpack.config.js` para que el autocompletado y los tipos funcionen correctamente.
+
+```js:webpack.config.js
+...
+remotes: {
+  moduleAppX: 'moduleAppX@https://your-app-domain.xyz/remoteEntry.js',
+},
+...
+```
+
+## 8. Realiza pruebas aisladas e integradas desde el inicio
+
+Es útil separar la lógica de tu componente en dos archivos:
+
+- `main.tsx`: solo exporta el componente que se va a consumir de forma remota.
+
+```tsx:main.tsx
+import 'react-loading-skeleton/dist/skeleton.css';
+
+export { ModuleX } from './presentation/pages/ModuleX';
+```
+
+- `bootstrap.tsx`: para probar el módulo de forma individual, con todo el contexto necesario.
+
+```tsx:bootstrap.tsx
+import { createRoot } from 'react-dom/client';
+import { ModuleX } from './presentation/pages/ModuleX';
+import { store } from './application/store';
+import { Provider } from 'react-redux';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+const container = document.getElementById('root')!;
+const root = createRoot(container);
+
+root.render(
+  <Provider store={store}>
+    <ModuleX />
+  </Provider>
+);
+```
+
+De esta forma, aseguramos el correcto funcionamiento de nuestro módulo dentro del módulo padre.
+
+**Conclusión:**
+
+Integrarse sin un host definido requiere comunicación, orden y algo de paciencia. Estas prácticas me ayudaron a lograrlo de forma más fluida, y espero que también te sean útiles si estás en una situación parecida.
+
+{/* 👉 Si tienes alguna duda o quieres compartir tu experiencia, estaré encantado de leerte. */}
+
+👉 Puedes volver a la parte anterior: [MicroFrontend: el escenario ideal para una integración ordenada](/blog/microfrontends-escenario-ideal)
