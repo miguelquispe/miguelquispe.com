@@ -10,7 +10,7 @@
   >
 	<url>
 		<loc>https://miguelquispe.com</loc>
-		<lastmod>2025-05-29T07:07:07.721Z</lastmod>
+		<lastmod>2025-06-02T11:07:07.721Z</lastmod>
 	</url>
   <url>
 		<loc>https://miguelquispe.com/acerca-de-mi</loc>
@@ -25,12 +25,17 @@
 		<lastmod>2025-05-29T07:07:07.721Z</lastmod>
 	</url>
   <url>
+    <loc>https://miguelquispe.com/blog/microfrontends-integracion-sin-host</loc>
+    <lastmod>2025-05-29T07:07:07.721Z</lastmod>
+  </url>
+  <url>
     <loc>https://miguelquispe.com/blog/microfrontends-escenario-ideal</loc>
     <lastmod>2025-05-29T07:07:07.721Z</lastmod>
-  <url>
+  </url>
   <url>
     <loc>https://miguelquispe.com/blog/microfrontends-sin-aplicacion-contenedora</loc>
     <lastmod>2025-05-29T07:07:07.721Z</lastmod>
+  </url>
   <url>
 		<loc>https://miguelquispe.com/blog/crear-componente-radio-button-app-react-native</loc>
 		<lastmod>2025-05-29T07:07:07.721Z</lastmod>
