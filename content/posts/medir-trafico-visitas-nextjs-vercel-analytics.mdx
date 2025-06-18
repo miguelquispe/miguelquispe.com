@@ -1,0 +1,79 @@
+---
+title: 'Cómo medir el tráfico (visitas) de tu app Next.js con Vercel Analytics'
+description: 'Activa Vercel Analytics en tu proyecto Next.js y empieza a ver cuántas personas entran a tu sitio, sin scripts externos ni configuraciones complejas.'
+publishedAt: '2025-06-18'
+type: 'article'
+tags:
+  - 'Next.js'
+  - 'Frontend'
+---
+
+Si estás usando Next.js y haces deploy en Vercel, puedes medir el tráfico de tu app sin scripts externos ni configuraciones complejas. Es una opción simple y útil para validar visitas en tus MVPs o proyectos personales, y funciona en todos los planes de Vercel.
+
+<PostImage
+  src="/images/posts/nextjs-vercel-analytics/nextjs-vercel-visitas.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Imagen de tráfico de visitas en Next.js con Vercel Analytics"
+/>
+
+## Pasos para implementarlo:
+
+### 1. Activa Analytics desde el panel de Vercel
+
+Entra al dashboard de tu proyecto y haz clic en **Enable Analytics**.
+
+<PostImage
+  src="/images/posts/nextjs-vercel-analytics/tab-analytics-vercel.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Image de mapa en emulador iOS y Android"
+/>
+
+Con eso basta para empezar a registrar visitas. No necesitas configurar nada adicional.
+
+### 2. Instala el paquete en tu proyecto
+
+```bash
+npm install @vercel/analytics
+```
+
+### 3. Agrega el componente Analytics en tu layout
+
+```tsx:app/layout.tsx
+import { Analytics } from '@vercel/analytics/next';
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <Analytics />
+    </>
+  );
+}
+```
+
+> 📚 Si necesitas más opciones, puedes revisar [la documentación oficial del componente](https://vercel.com/docs/analytics/package).
+
+Y listo, con eso ya comienzas a registrar visitas en producción y puedes verlas desde el panel de Vercel.
+
+## ¿Qué métricas vas a ver?
+
+Desde el panel de Vercel podrás ver: Referencias, Visitas por día, Ubicación por país, dispositivos, entre otras métricas útiles.
+
+<PostImage
+  src="/images/posts/nextjs-vercel-analytics/nextjs-analytics-dashboard.png"
+  layout="responsive"
+  width={500}
+  height={420}
+  objectFit="cover"
+  alt="Image de mapa en emulador iOS y Android"
+/>
+
+## Conclusión
+
+Medir el tráfico de nuestros proyectos nos brinda información importante para ir mejorando la experiencia del usuario, validar si hay interés y tomar decisiones basadas en datos.
